@@ -1,0 +1,32 @@
+% Spectral Plot for a single resonator
+
+delta = 0.1;
+L = 1;
+s_1 = 0.6;
+
+% Define the Bandfunctions
+f_1 = @(x) sqrt(delta) * sqrt((2/s_1) * (1 - cos(x)));
+f_3 = @(x) sqrt(delta) * sqrt((2/s_1) * (1 + cosh(x)));
+
+% Define the range for x
+beta_bound = 4;
+x_range = -pi:0.01:pi;
+beta_range = -beta_bound:0.0001:beta_bound;
+
+y_values_1 = real(f_1(x_range));
+y_values_3 = real(f_3(beta_range));
+
+figure; 
+lw = 4.5; %linewidth
+plot(x_range, y_values_1, 'k', 'LineWidth', lw);
+hold on;
+pbaspect([8 6 1]); % Set the ratio to 10:6
+plot(beta_range, y_values_3, 'r', 'LineWidth', lw);
+y_val = f_1(pi);
+line([min(beta_range), max(beta_range)], [y_val, y_val], 'Color', 'k', 'LineStyle', ':', 'LineWidth', 1);
+xlabel('\alpha and \beta respectively', 'FontSize', 18);
+ylabel('\omega^{\alpha, \beta}', 'FontSize', 18);
+legend('Band function', 'Gap function', 'Location', 'northeast', 'FontSize', 20);
+set(gca, 'FontSize', 22); % Adjust tick font size
+saveas(gcf, 'Band_plot_single.pdf');
+hold off;
