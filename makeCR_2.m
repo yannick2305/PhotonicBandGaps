@@ -1,7 +1,7 @@
 % computes the capacitance for a dimer
 
 
-function matC = makeCR_2(k, R, alpha, beta, N_SLP, L1x, L2, d_zeta, JHdata, JHijdata, N, N_multi, N_lattice)   
+function matC = makeCR_2(k, z, R, alpha, beta, L1x, L2, d_zeta, JHdata, JHijdata, N, N_multi, N_lattice)   
                         
         N = 2; % two esonators inside of the unit cell
 
@@ -10,7 +10,7 @@ function matC = makeCR_2(k, R, alpha, beta, N_SLP, L1x, L2, d_zeta, JHdata, JHij
         % matR is now a 2x2 Block matrix with block entries that are
         % 2*N_SLP + 1 dimensional
 
-        matR = makeR_2(k, R, alpha, beta, N_SLP, N_lattice);
+        matR = makeR_2(k, z, R, alpha, beta, N_multi, N_lattice);
 
         matSR = (matS - matR)  ; % - matR)  ;    % Single Layer potential for beta neq 0
                                      % Minus sign because of the 2
@@ -50,11 +50,10 @@ function matC = makeCR_2(k, R, alpha, beta, N_SLP, L1x, L2, d_zeta, JHdata, JHij
             phi_j = zeros(MM,1);
             phi_j((j-1)*NN+1 : j*NN) = coefficients_M; 
             psi_j = matSR\phi_j;
-            for i = j:N
+            for i = 1:N
                 phi_i = zeros(MM,1);
                 phi_i((i-1)*NN+1 : i*NN) = coefficients_P;
                 matC(i,j) = -2*pi*R * phi_i' * psi_j;
-                matC(j,i) = conj(matC(i,j));
             end
         end
 end

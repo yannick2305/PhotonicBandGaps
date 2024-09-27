@@ -18,11 +18,7 @@
 %% Define the functions:
 
 function SLP = makeR(k0, R, alpha, beta, N_SLP, N_lattice)
-    rho_0 = 1000;
-    kappa_0 = 1000;
-    v0 = sqrt(kappa_0/rho_0);
-    w = k0 / v0;                % rescale from k and w (Here k = w)
-    SLP = SLP_R(w, N_lattice, N_SLP, alpha, beta, R);
+    SLP = SLP_R(k0, N_lattice, N_SLP, alpha, beta, R);
 end
  
 % Generates part of the complex Green's function
@@ -46,7 +42,7 @@ function lattice_sum_value = lattice_sum(m, n, w, n_lat, alpha, beta, R)
         for j = -n_lat:n_lat
             q = i * a + j * b;
             alpha_q = alpha + q;
-            psi = atan2(alpha_q(1), alpha_q(2));
+            psi = atan2(alpha_q(2), alpha_q(1));
             scale = 2*pi*R * exp(1i * psi * (n - m)) * 1i^(m - n) * (-1)^n;
             arg = R*sqrt(alpha_q(1)^2 + alpha_q(2)^2);
             res = scale * besselj(m, arg) * besselj(n, arg)* Green(q, w, alpha, beta);

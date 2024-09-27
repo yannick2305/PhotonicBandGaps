@@ -1,15 +1,14 @@
 
-function matC = makeCR(k, R, alpha, beta, N_SLP, L1x, L2, d_zeta, JHdata, JHijdata, N, N_multi, N_lattice)   
-                        
+function matC = makeCR(k, R, alpha, beta, L1x, L2, d_zeta, JHdata, JHijdata, N, N_multi, N_lattice)   
         N = 1;
         matS = makeS(k,R,alpha,L1x,L2,d_zeta,JHdata,JHijdata,N,N_multi,N_lattice);
-        matR = makeR(k, R, alpha, beta, N_SLP, N_lattice);
+        matR = makeR(k, R, alpha, beta, N_multi, N_lattice);
         matSR = (-matR + matS)  ;    % Single Layer potential for beta neq 0
                                      % Minus sign because of the 2
                                      % conventions used (Habib vs Erik)
 
         % represent in Fourier Basis ---------------------------------
-        n_range = -N_SLP:N_SLP;  % Define the range of the Fourier Basis
+        n_range = -N_multi:N_multi;  % Define the range of the Fourier Basis
         coefficients_P = zeros(size(n_range));
         coefficients_M = zeros(size(n_range));
 

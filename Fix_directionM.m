@@ -1,0 +1,263 @@
+clear all
+close all
+% Suppose that beta has fixed, specified direction and alpha traverses BZ.
+% Uses Muller's method to find zeros of imag(C).
+
+%% GtM: branch of alpha from Gamma to M 
+z0s = [-5.19, 0]; % Precomputed initial guesses for R = 0.05
+N0 = length(z0s);
+Na = 200; % Adjust as needed
+alphas = linspace(pi*1e-5, pi-0.001, Na);
+
+% Parameters for Muller's method
+distTol = 5e-5;
+fTol = 1e-8;
+iterMax = 50;
+e = 1e-4;
+
+betas = zeros(Na,N0);
+ws = zeros(Na,N0);
+for I0 = 1:N0
+    for Ia = 1:Na
+        alp = alphas(Ia)*[1,1];
+        func = @(bet) imag(my_function(alp,bet));
+        if Ia == 1        
+            z0 = z0s(I0);
+        else
+            z0 =  betas(Ia-1,I0);
+        end
+        betas(Ia,I0) =  real(MullersMethod(func, z0-2*e, z0-e, z0, iterMax, distTol, fTol));
+        ws(Ia,I0) = my_function(alp,betas(Ia,I0));
+    end
+end
+
+% Add branch that diverges in the middle
+z0 = -1.346;
+alphas2 = linspace(0.1699, pi-0.001, Na);
+betas2 = zeros(Na,1);
+ws2 = zeros(Na,1);
+betas2(1) = z0; 
+for Ia = 1:Na
+    alp = alphas2(Ia)*[1,1];
+    func = @(bet) imag(my_function(alp,bet));
+    if Ia > 1
+        z0 =  betas2(Ia-1);
+        betas2(Ia) =  real(MullersMethod(func, z0-2*e, z0-e, z0, iterMax, distTol, fTol));
+    end
+    ws2(Ia) = my_function(alp,betas2(Ia));
+end
+
+%% Add branch for fixed alpha = 0
+Nb = 200;
+betas3 = linspace(-6,0,Nb);
+ws3 = zeros(Nb,1);
+alpha3 = 1e-6*[pi,pi];
+for Ib = 1:Nb
+    ws3(Ib) = fixalpha(alpha3,betas3(Ib));
+    if abs(imag(ws3(Ib))) > 5e-2
+        ws3(Ib) = NaN;
+    end
+end
+ws3(end-6)=ws3(end-7);
+betas3(end-6) = 0;
+
+%% Add branch for fixed alpha = [pi,pi]
+ws4 = zeros(Nb,1);
+alpha4 = [pi,pi];
+betas4 = linspace(-3.2,0,Nb);
+for Ib = 1:Nb
+    ws4(Ib) = my_function(alpha4,betas4(Ib));
+    if abs(imag(ws4(Ib))) > 1e-1
+        ws4(Ib) = NaN;
+    end
+end
+
+%% MtG: branch of alpha from M to X
+z0s = [-2.525, 0]; % Precomputed initial guesses for R = 0.05 at M
+N0 = length(z0s);
+Na = 200; % Adjust as needed
+alphas5 = linspace(0.005, pi-0.001, Na);
+
+betas5 = zeros(Na,N0);
+ws5 = zeros(Na,N0);
+for I0 = 1:N0
+    for Ia = 1:Na
+        talp = alphas5(Ia);
+        alp = [pi-talp,pi];
+        func = @(bet) imag(my_function(alp,bet));
+        if Ia == 1        
+            z0 = z0s(I0);
+        else
+            z0 =  betas5(Ia-1,I0);
+        end
+        betas5(Ia,I0) =  real(MullersMethod(func, z0-2*e, z0-e, z0, iterMax, distTol, fTol));
+        ws5(Ia,I0) = my_function(alp,betas5(Ia,I0));
+    end
+end
+
+%% XtG: branch of alpha from X to Gamma
+z0s = [-5.08, 0]; % Precomputed initial guesses for R = 0.05 at M
+N0 = length(z0s);
+Na = 200; % Adjust as needed
+alphas6 = linspace(pi*1e-5, pi-0.001, Na);
+
+betas6 = zeros(Na,N0);
+ws6 = zeros(Na,N0);
+for I0 = 1:N0
+    for Ia = 1:Na
+        alp = [0,alphas6(Ia)];
+        func = @(bet) imag(my_function(alp,bet));
+        if Ia == 1        
+            z0 = z0s(I0);
+        else
+            z0 =  betas6(Ia-1,I0);
+        end
+        betas6(Ia,I0) =  real(MullersMethod(func, z0-2*e, z0-e, z0, iterMax, distTol, fTol));
+        ws6(Ia,I0) = my_function(alp,betas6(Ia,I0));
+    end
+end
+
+% Add branch that diverges in the middle
+z0 = -1.39;
+alphas7 = linspace(0.3, pi-0.001, Na);
+betas7 = zeros(Na,1);
+ws7 = zeros(Na,1);
+for Ia = 1:Na
+    alp = [0,alphas7(Ia)];
+    func = @(bet) imag(my_function(alp,bet));
+    if Ia > 1
+        z0 =  betas7(Ia-1);
+    end
+    betas7(Ia) =  real(MullersMethod(func, z0-2*e, z0-e, z0, iterMax, distTol, fTol));
+    ws7(Ia) = my_function(alp,betas7(Ia));
+end
+
+%% Add branch for fixed alpha = 0
+Nb = 200;
+betas8 = linspace(-6,0,Nb);
+ws8 = zeros(Nb,1);
+alpha8 = 1e-5*[0,pi];
+for Ib = 1:Nb
+    ws8(Ib) = my_function(alpha8,betas8(Ib));
+    if abs(imag(ws8(Ib))) > 5e-2
+        ws8(Ib) = NaN;
+    end
+end
+ws8(end-8)=ws8(end-9);
+betas8(end-8) = 0;
+
+%% Add branch for fixed alpha = [0,pi]
+ws9 = zeros(Nb,1);
+alpha9 = [0,pi];
+betas9 = linspace(-10,0,Nb);
+for Ib = 1:Nb
+    ws9(Ib) = my_function(alpha9,betas9(Ib));
+    if abs(imag(ws9(Ib))) > 1e-1
+        ws9(Ib) = NaN;
+    end
+end
+
+%%
+close all
+figure
+fsz = 16;
+lfsz = 12;
+alw = 0.75;
+lw = 1.5;
+msz = 3;
+
+hold on
+plot(alphas,ws(:,1),'r','linewidth',lw) 
+plot(betas(:,1),ws(:,1),'r','linewidth',lw) 
+
+
+plot(alphas2,[ws2(1:end-3);ws2(end-3);ws2(end-3);ws2(end-3)],'r','linewidth',lw) 
+plot(betas2(1:end-1),ws2(1:end-1),'r','linewidth',lw) 
+
+plot(betas3,real(ws3),'r','linewidth',lw)
+plot(alpha3(1)*ones(size(ws3)),[1.05;ws3(2:end)],'r','linewidth',lw)
+plot(betas4,real(ws4),'r','linewidth',lw)
+plot(alpha4(1)*ones(size(ws4)),real(ws4),'r','linewidth',lw)
+
+plot([alphas5(1:end-14),alphas5(end)]+pi,[ws5(5,1);ws5(5,1);ws5(5,1);ws5(5,1);ws5(5:end-14,1);ws5(end-14,1)],'r','linewidth',lw) %check cont
+plot(betas5(2:end-14,1),ws5(2:end-14,1),'r','linewidth',lw)
+
+
+plot(3*pi-alphas6(1:end-3),ws6(1:end-3,1),'r','linewidth',lw)
+plot(betas6(1:end-3,1),ws6(1:end-3,1),'r','linewidth',lw)
+
+plot(3*pi-alphas7(1:end-3),ws7(1:end-3),'r','linewidth',lw)
+plot(betas7(1:end-3),ws7(1:end-3),'r','linewidth',lw)
+
+plot(betas9,real(ws9),'r','linewidth',lw)
+plot(alpha9(2)*ones(size(ws9))+pi,real(ws9),'r','linewidth',lw)
+
+
+plot(alphas,ws(:,2),'k','linewidth',lw) 
+plot(betas(:,2),ws(:,2),'k','linewidth',lw) 
+plot(3*pi-alphas6,ws6(:,2),'k','linewidth',lw)
+plot(betas6(:,2),ws6(:,2),'k','linewidth',lw)
+plot(alphas5+pi,ws5(:,2),'k','linewidth',lw)
+plot(betas5(:,2),ws5(:,2),'k','linewidth',lw) 
+
+
+ylim([0,1.05])
+xlim([-6,3*pi])
+
+ylabel('Frequency $\omega$','interpreter'   ,'latex');
+xlabel('Complex part $\beta\qquad\qquad\quad\qquad$ Real part $\alpha\qquad\qquad\quad$','interpreter','latex');
+xticks([ -6, -4, -2, 0, pi, 2*pi, 3*pi])
+xticklabels({'$-6$','$-4$','$-2$','$\Gamma$','$M$','$X$','$\Gamma$'})
+ax = gca;
+set(gca, 'FontSize', fsz, 'LineWidth', alw);
+set(gca,'TickLabelInterpreter','latex')
+%legend([b1(1), r1(1)],'Full solution','Perturbation theory','interpreter','latex','location','southeast','FontSize',lfsz)
+set(gca, 'FontSize', fsz, 'LineWidth', alw);
+set(gca,'TickLabelInterpreter','latex')
+set(gcf, 'Position', [0, 0, 700, 400])
+ax = gca;
+outerpos = ax.OuterPosition;
+ti = ax.TightInset; 
+left = outerpos(1) + ti(1);
+bottom = outerpos(2) + ti(2);
+ax_width = outerpos(3) - ti(1) - ti(3);
+ax_height = outerpos(4) - ti(2) - ti(4);
+ax.Position = [left*1 bottom ax_width*0.98 ax_height*0.98];
+
+%print('MfixdirBZ','-depsc');
+
+% Define the function f
+function ws = my_function(alpha,tbet)
+    beta = real(tbet);
+
+    slopeb = 1;
+
+    alp = alpha;
+    bet = [beta * slopeb, beta];
+
+    % Set all the Paramters to the same values as in the RUN_band file
+    k0 = 0.00001;
+    N = 1;
+    R = 0.05;     % R = 0.005 (Default setting)
+    D = 1;         % D = 1 has to be true
+    c1 = 1/2*D*[1,1];
+    c = [c1];
+    N_lattice = 8;      % Use about 5
+    N_multi = 6;          % Use about 5
+    d_zeta=makezetadata;
+    JHdata = makeJHdata0(k0,R,N_multi);
+    JHijdata = makeJHijexpdata(k0,c,N_multi);
+    L1x = D;
+    L2x = 0;
+    L2y = D;
+    L1 = [L1x, 0];
+    L2 = [L2x,L2y];
+    vol = pi*R^2;
+    delta = 1e-3;
+    vb = 1;
+
+    % Compute the Bandfunctions
+    CR = makeCR(k0, R, alp, bet, L1x, L2, d_zeta, JHdata, JHijdata, N, N_multi, N_lattice);
+    ws = sort(vb*sqrt(delta*eig(CR)./vol));
+
+end
