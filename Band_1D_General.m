@@ -11,6 +11,9 @@
 %   A complete derivation of the formula used in this implementation 
 %   can be found in arXiv:2409.14537.
 
+clear all;
+close all;
+
 % --- Set the parameters ---
     n = 1.8;                % wave number coupling
     a = 0.2;                % length of resonator
