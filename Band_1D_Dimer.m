@@ -13,9 +13,10 @@
 
 
 % --- Set the parameters ---
-    delta = 0.1;
-    s_1 = 0.8;
-    s_2 = 2;
+    delta = 0.1;        % Contrast (jump of the normal derivative)
+    s_1 = 0.8;          % Spacing between first and second resonator
+    s_2 = 2;            % Spacing between second and first resonator
+    N_points = 100;     % Discretisation points used in plot
 
 % --- Define the Bandfunctions in the subwavelength regime ---
     f_1 = @(x) sqrt(delta) * sqrt((1/s_1 + 1/s_2)     + sqrt(1/(s_1)^2     + 1/(s_2)^2 + 2/(s_1*s_2)*cos(x)));
@@ -25,10 +26,13 @@
     f_5 = @(x) sqrt(delta) * sqrt(abs((1/s_1 + 1/s_2) + sqrt(abs(1/(s_1)^2 + 1/(s_2)^2 + 2/(s_1*s_2)*cosh(x)))));
 
 % --- Define the range for x ---
-    x_range = -pi:0.08:pi;      % Plot real Bands over the first Brillouin zone
+    % Plot real Bands over the first Brillouin zone
+    x_range = linspace(-pi, pi, N_points);      
+
+    % Plot the complex bands over some ranges
     beta_bound = acosh((1/2) * (s_2^2 + s_1^2)/(s_1*s_2)); 
-    beta_range = -beta_bound:0.0098:beta_bound+0.001 ;
-    beta_range_2 = -4:0.08:4;   % Plot the complex bands over some range
+    beta_range = linspace(-beta_bound, beta_bound, N_points);
+    beta_range_2 = linspace(-4, 4, N_points);   
 
 % --- Evaluate the functions on the grid ---
     y_values_1 = real(f_1(x_range));        % Real Band
