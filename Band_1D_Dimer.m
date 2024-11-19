@@ -11,6 +11,8 @@
 %   A complete derivation of the formula used in this implementation 
 %   can be found in arXiv:2409.14537.
 
+clear all;
+close all;
 
 % --- Set the parameters ---
     delta = 0.1;        % Contrast (jump of the normal derivative)
