@@ -2,7 +2,7 @@
     ---------------------------------------------------------
     Author(s):    [Erik Orvehed HILTUNEN , Yannick DE BRUIJN]
     Date:         [November 2024]
-    Description:  [Subwavelength Spectral Plot for a 1D Dimer Chain]
+    Description:  [Subwavelength Spectral Plot for a 1D resonator Chain]
     ---------------------------------------------------------
 %}
 
