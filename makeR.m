@@ -42,7 +42,8 @@ function SLP_matrix = makeR(w, R, alpha, beta, N_SLP, N_lattice)
         % Define the range of m and n
         m_range = -N_SLP:N_SLP;   % Finite Fourier Basis
         n_range = -N_SLP:N_SLP;
-        
+        k =  -2*N_SLP:2*N_SLP;
+
         % Precompute the terms involed in the sum for the Green's function
         green = Green(q, w, alpha, beta); 
     
@@ -56,6 +57,9 @@ function SLP_matrix = makeR(w, R, alpha, beta, N_SLP, N_lattice)
         
         % Precompute the circumference
         TWOpiR = 2 * pi * R;
+
+        % Precompute for lattice sum
+        exp_result = TWOpiR * exp(1i * psi * k) .* (1i.^k) .* green;
         
         % Precompute Bessel functions
         max_order = max(abs([m_range, n_range])); 
@@ -72,10 +76,14 @@ function SLP_matrix = makeR(w, R, alpha, beta, N_SLP, N_lattice)
             for j = 1:SLP_size
                 n = n_range(j);
                 % Precompute lattice sum arguments
-                psi_mn = (-1)^n * 1i^(m - n); 
-                scale = TWOpiR * exp(1i * psi * (n - m)) * psi_mn;
+                kind = m - n + (2*N_SLP + 1);
+                if mod(n, 2) == 0  
+                    scale =  exp_result(:, kind );   % Assign +1 for even n
+                else
+                    scale =  -exp_result(:, kind );   % Assign -1 for odd n
+                end
                 % Perform the lattice sum
-                SLP_matrix(i, j) = lattice_sum(m, n, green, idx_map, scale, precomputed_bessel);
+                SLP_matrix(i, j) = lattice_sum(m, n, idx_map, scale, precomputed_bessel);
             end
         end
 
@@ -113,7 +121,7 @@ function green_sum = Green(q, w, alpha, beta)
 end
 
 
-function lattice_sum_value = lattice_sum(m, n, green, idx_map, scale, precomputed_bessel)
+function lattice_sum_value = lattice_sum(m, n, idx_map, scale, precomputed_bessel)
     %
     % Description:
     %   This function computes the Single Layer Potential (SLP) matrix by
@@ -151,6 +159,6 @@ function lattice_sum_value = lattice_sum(m, n, green, idx_map, scale, precompute
         bessel_n = bessel_n_unique(idx_map);
 
     % ----------- Perform the lattice sum -----------
-        res = scale .* bessel_m .* bessel_n .* green;  % Element-wise product
-        lattice_sum_value = sum(res(:));               % Sum over all elements
+        res = scale .* bessel_m .* bessel_n ;  % Element-wise product
+        lattice_sum_value = sum(res(:));       % Sum over all elements
 end
