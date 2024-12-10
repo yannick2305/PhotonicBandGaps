@@ -14,15 +14,15 @@ close all;
     Y     = 1;          % Volume of first Brillouin zone
     k     = 0.01;       % Frequency
     alpha = [pi, pi];   % Quasimomenta, has to be fixed to M
-    N = 100;            % Lattice summation size
-    Resolution = 150;   % Resolution of the solution u(x)
-    size = 2.5;         % Size of the surface plot [0.5, size] x [0.5, size]
+    N = 60;            % Lattice summation size
+    Resolution = 100;   % Resolution of the solution u(x)
+    size = 1.5;         % Size of the surface plot [0.5, size] x [0.5, size]
 
 % --- Variable Parameters --- 
-    r = 0.3;            % Resonator radius
+    r = 0.05;            % Resonator radius
 
-    %beta = 4.09699 * [1, 1];   % set R = 0.05
-     beta = 6.88444 * [1, 1];   % set R = 0.3
+    beta = 4.09699 * [1, 1];   % set R = 0.05
+    %beta = 6.88444 * [1, 1];   % set R = 0.3
 
 % Remark: 
 %       β is precomputed such that the SLP has non-trivial kernel, that
@@ -30,9 +30,12 @@ close all;
 
 
 % --- Compute the lattice sum ---
+
+    % --- Precompute what is independent of x ---
+
     % Generate the dual lattice
     [q_x, q_y] = meshgrid((-N:N) * 2*pi, (-N:N) * 2*pi); % Dual lattice
-    q_vectors = [q_x(:)'; q_y(:)']; % Combine q_x and q_y into a 2x(2N+1)^2 array
+    q_vectors = [q_x(:)'; q_y(:)']; % Combine into a 2x(2N+1)^2 array
     
     % Precompute alpha + q and norms
     alpha_q = q_vectors + alpha(:); % 2xK array
@@ -41,17 +44,17 @@ close all;
     % Compute dot(beta, alpha + q) for the denominator
     dot_beta_alpha_q = beta(:)' * alpha_q; % Row vector of dot products
     
-    % Denominator (constant across x grid)
+    % Denominator 
     denom = k^2 + norm(beta)^2 - 2i * dot_beta_alpha_q - norm_alpha_q.^2;
     
-    % Bessel function term (constant across x grid)
+    % Bessel function term 
     bessel_term = besselj(0, r * norm_alpha_q);
     
-    % Prefactor (constant for all x values)
+    % Prefactor 
     prefactor = (2 * pi * r * a0 / abs(Y));
 
 % --- Find solution at Grid points ---
-    % Define grid for x = [x1, x2]
+
     x1_range = linspace(0.5, size, Resolution); 
     x2_range = linspace(0.5, size, Resolution); 
     [x1, x2] = meshgrid(x1_range, x2_range); 
@@ -68,8 +71,7 @@ close all;
         
         exp_term = exp(1i * dot_alpha_q_x);
         
-        % Vectorised summation
-        summand = exp_term .* bessel_term ./ denom;
+        summand = exp_term .* bessel_term ./ denom; % Vectorised summation
         u_grid(idx) = sum(summand); 
     end
     
@@ -112,7 +114,6 @@ fs = 26;    % Define the label fontsize
     axis tight;
     view(2);
     
-    % Set color scale explicitly (i.e. remove the spikes)
     clim([0, 0.2]);
     zlim([-4, 4]); 
     view(2);
