@@ -2,14 +2,14 @@
     --------------------------------------------------------------
     Author(s):    [Erik Orvehed HILTUNEN , Yannick DE BRUIJN]
     Date:         [December 2024]
-    Description:  [Evaluate the outside field directly]
+    Description:  [Evaluate the outside field directly.]
     --------------------------------------------------------------
 %}
 
 clear all;
 close all;
 
-N_multi = 1;        
+N_multi = 2;        
 
 alpha = pi * [1,1]; % Keep alpha fixed at [pi, pi]
 
@@ -17,28 +17,20 @@ alpha = pi * [1,1]; % Keep alpha fixed at [pi, pi]
 % --- Precomputed vlaues where SLP has nontrivial kernel ---
 %       -> change R below accordingly
 
-    %beta = 4.09699 * [1, 1];
-    %beta = pi * [-1,1];        % R = 0.1 and any SLP
-    %beta = 2.9683  * [1,1];   % R = 0.1
-    %beta = 6.88444 * [1,1];   % R = 0.3   SLP = 0
-    %beta = 4.09699 * [1,1];   % R = 0.05
-    %beta = 3.09381 * [1,1];   % R = 0.05  SLP = 2
-    %beta = 2.3964  * [1,1];   % R= 0.3    SLP = 2
-    beta = 2.40313 * [1,1];   % R= 0.3    SLP = 1
-    %beta = 2.39401 * [1,1];   % R= 0.3    SLP = 4
-    
-    %beta = pi * [-1, 1]; % Dilute resonators R = 0.00001
+    %beta = pi * [-1, 1];            % Dilute resonators R = 0.00001
+    %beta = 3.98415  * [1,1];        % R = 0.05  SLP = 2
+     beta = 4.61125 * [1,1];         % R = 0.1   SLP = 2
+    %beta = 5.49465 * [1,1];         % R = 0.3   SLP = 2 NEW
 
-    R =  0.3;  % Resonator radius
+    R =  0.1;  % Resonator radius
 
 % --- Define the parameters ------------------------------------------
     k0 = 0.0001; %0.00001;
     N = 1;
-  
-    D = 1;          % D = 1 has to be true
-    c1 = 1/2*D*[0,0]; % c1 = 1/2*D*[1,1];
-    c = [c1];
-    N_lattice = 100;      % Use about 5 increase for more precision
+    D = 1;              
+    c1 = 1/2*D*[0,0];  
+    c = c1;
+    N_lattice = 30;      
     d_zeta=makezetadata;
     JHdata = makeJHdata0(k0,R,N_multi);
     JHijdata = makeJHijexpdata(k0,c,N_multi);
@@ -58,7 +50,7 @@ alpha = pi * [1,1]; % Keep alpha fixed at [pi, pi]
     matSR = (-matR + matS)  ;  
 
    
-% --- Comput the pseudokernel of the SLP
+% --- Comput the pseudokernel of the SLP ---
     K = null(matSR);
     Rank = rank(matSR);
     
@@ -68,7 +60,7 @@ alpha = pi * [1,1]; % Keep alpha fixed at [pi, pi]
     disp(K);
     
     % Define a tolerance for determining "close to zero"
-    tolerance = 0.0001;
+    tolerance = 0.001;
     
     singularValues = svd(matSR);
     [U, S, V] = svd(matSR);
@@ -94,8 +86,8 @@ ker = pseudoKernel(:,1); % Select one of the pseudokernel vectors
 
 % --- Plot the outside field  ---
     % Define grid values
-    x1_vals = linspace(-0.5, 0.5, 80);
-    x2_vals = linspace(-0.5, 0.5, 80);
+    x1_vals = linspace(-0.5, 1.5, 50);
+    x2_vals = linspace(-0.5, 1.5, 50);
     [x1, x2] = meshgrid(x1_vals, x2_vals);
 
     % Initialize storage for results
@@ -103,11 +95,9 @@ ker = pseudoKernel(:,1); % Select one of the pseudokernel vectors
 
     % Loop over the grid
     for i = 1:size(x1, 1)
-        for j = 1:size(x2, 2)
-            % Current point in the grid
+        parfor j = 1:size(x2, 2)
             x = [x1(i, j), x2(i, j)];
             
-            % Evaluate the function
             Res(i, j) = evaldFieldR(x, ker, alpha, beta, k0, R, N_multi, N_lattice);
         end
     end
@@ -115,12 +105,10 @@ ker = pseudoKernel(:,1); % Select one of the pseudokernel vectors
  
 %% --- Plot the outside field ---
 
-Sol = -Res; % Keep track of the different conventions
-
-Sol = real(Sol);
- 
-lim = 0.1;   % Size of the plotting window
-fs  = 26;     % Fontsize of the annotations
+Sol = imag(Res);
+     
+lim = 0.1;  % Size of the plotting window
+fs  = 26;   % Fontsize of the annotations
 
 % --- Create a surface plot ---
     figure;
@@ -136,36 +124,6 @@ fs  = 26;     % Fontsize of the annotations
  
     clim([-lim, lim]); 
     zlim([-lim, lim]); 
- 
-
-%% --- Plug solution into the initial PDE ---
-
-[x, y] = meshgrid(x1_vals, x2_vals);
-
-PDE =  applyOperator(Sol, x1_vals, x2_vals, beta, k0);
-
-%PDE = Op(U, x1_vals, x2_vals, beta, k0);
-
-% --- Remove edges because FEM fails here ---
-    trim = 3;
-    x_trimmed = x(trim+1:end-trim, trim+1:end-trim); 
-    y_trimmed = y(trim+1:end-trim, trim+1:end-trim); 
-    PDE_trim = PDE(trim+1:end-trim, trim+1:end-trim);
-
-% --- Plot the solution ---
-    figure;
-    surf(x_trimmed, y_trimmed, abs(PDE_trim));
-    shading interp;
-    colorbar;
-    xlabel('$x_1$', 'Interpreter', 'latex', 'FontSize', fs + 4); 
-    ylabel('$x_2$', 'Interpreter', 'latex', 'FontSize', fs + 4); 
-    set(gca, 'FontSize', fs-4); 
-    axis equal;
-    axis tight;
-    view(2);
-    lim = 0.2;
-    clim([-lim lim]); 
-    zlim([-lim, lim]);
 
 
 %% --- Define the functions ---
@@ -186,7 +144,7 @@ function sol = evaldFieldR(x, ker, alpha, beta, w, R, N_SLP, N_lattice)
     end
 
     % Compute the solution as the dot product
-    sol = dot(ker.', SLP_vec);
+    sol =  SLP_vec * ker;
 end
 
 
@@ -208,7 +166,7 @@ function res = LatticeSum(n, x, alpha, beta, w, R, N_lattice)
     arg_q_alpha = atan2(q_alpha(:, 2), q_alpha(:, 1)); 
 
     % Compute the Green function for all lattice points
-    denominator1 = q_alpha_norm_sq + 2j * q_alpha_dot_beta - w^2 - beta_norm_sq;
+    denominator1 = w^2 + beta_norm_sq  - 2j * q_alpha_dot_beta - q_alpha_norm_sq ;
     green_sum    = 1 ./ (denominator1);
     
     % Compute the Bessel function arguments and values
@@ -220,38 +178,8 @@ function res = LatticeSum(n, x, alpha, beta, w, R, N_lattice)
     lattice_sum      = sum(exponential_term .* bessel_values .* exp(1i * n * arg_q_alpha)  .* green_sum); % Summation over all q
     
     % Scale the result
-    scale = 2 * pi * R * (-1i)^n;
+    scale = 2 * pi * R * (-1i)^(n);
     res = scale * lattice_sum;
 end
-
-
-function result = applyOperator(v, x, y, beta, k)
-
-    % Constants
-    beta_x = beta(1);
-    beta_y = beta(2);
-    beta_norm_sq = beta_x^2 + beta_y^2;
-    k_sq = k^2;
-
-    % Grid spacing
-    dx = x(2) - x(1);
-    dy = y(2) - y(1);
-
-    % Laplacian: ∆v = d²v/dx² + d²v/dy²
-    d2v_dx2 = (circshift(v, [-1, 0]) - 2 * v + circshift(v, [1, 0])) / dx^2;
-    d2v_dy2 = (circshift(v, [0, -1]) - 2 * v + circshift(v, [0, 1])) / dy^2;
-    laplacian = d2v_dx2 + d2v_dy2;
-
-    % Gradient: ∇v = [dv/dx, dv/dy]
-    dv_dx = (circshift(v, [-1, 0]) - circshift(v, [1, 0])) / (2 * dx);
-    dv_dy = (circshift(v, [0, -1]) - circshift(v, [0, 1])) / (2 * dy);
-
-    % Dot product: 2 * β · ∇v
-    beta_dot_grad_v = 2 * (beta_x * dv_dx + beta_y * dv_dy);
-
-    % Final operator
-    result = laplacian - beta_dot_grad_v + (k_sq + beta_norm_sq) * v;
-end
-
 
 
