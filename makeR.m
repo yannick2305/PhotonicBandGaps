@@ -59,7 +59,7 @@ function SLP_matrix = makeR(w, R, alpha, beta, N_SLP, N_lattice)
         TWOpiR = 2 * pi * R;
 
         % Precompute for lattice sum
-        exp_result = TWOpiR * exp(1i * psi * k) .* (1i.^k) .* green;
+        exp_result = TWOpiR * exp(1i * psi * k) .* green;
         
         % Precompute Bessel functions
         max_order = max(abs([m_range, n_range])); 
@@ -83,6 +83,7 @@ function SLP_matrix = makeR(w, R, alpha, beta, N_SLP, N_lattice)
                     scale =  -exp_result(:, kind );   % Assign -1 for odd n
                 end
                 % Perform the lattice sum
+                scale = scale*(1i)^(m+n);
                 SLP_matrix(i, j) = lattice_sum(m, n, idx_map, scale, precomputed_bessel);
             end
         end
