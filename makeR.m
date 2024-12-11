@@ -76,14 +76,14 @@ function SLP_matrix = makeR(w, R, alpha, beta, N_SLP, N_lattice)
             for j = 1:SLP_size
                 n = n_range(j);
                 % Precompute lattice sum arguments
-                kind = m - n + (2*N_SLP + 1);
+                kind = -(m - n) + (2*N_SLP + 1);   % <-- corrected this line 
                 if mod(n, 2) == 0  
                     scale =  exp_result(:, kind );   % Assign +1 for even n
                 else
                     scale =  -exp_result(:, kind );   % Assign -1 for odd n
                 end
                 % Perform the lattice sum
-                scale = scale*(1i)^(m+n);
+                scale = scale*(1i)^(m+n); %    <-- Changed the minus sign here
                 SLP_matrix(i, j) = lattice_sum(m, n, idx_map, scale, precomputed_bessel);
             end
         end
