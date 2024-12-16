@@ -11,18 +11,25 @@ close all;
 
 N_multi = 2;        
 
-alpha = pi * [1,1]; % Keep alpha fixed at [pi, pi]
-
+alpha =  [pi,pi]; % Keep alpha fixed at [pi, pi]
 
 % --- Precomputed vlaues where SLP has nontrivial kernel ---
+%     Remark: other parameters can be precomputed in FindKernelSLP.m
+
 %       -> change R below accordingly
 
+    % --- Values for alpha = [pi, pi]
     %beta = pi * [-1, 1];            % Dilute resonators R = 0.00001
     %beta = 3.98415  * [1,1];        % R = 0.05  SLP = 2
-     beta = 4.61125 * [1,1];         % R = 0.1   SLP = 2
-    %beta = 5.49465 * [1,1];         % R = 0.3   SLP = 2 NEW
+    %beta = 4.61125 * [1,1];         % R = 0.1   SLP = 2
+    beta = 5.49465 * [1,1];         % R = 0.3   SLP = 2 NEW
+    %beta = 4.611103 * [1,1];        % R = 0.1   SLP = 4
 
-    R =  0.1;  % Resonator radius
+    % --- Values for alpha = [1, 1]
+     %beta = 6.13148 * [1, -1];      % R = 0.1; SLP = 4, alpha = [1,1]
+  
+
+    R =  0.3;  % Resonator radius
 
 % --- Define the parameters ------------------------------------------
     k0 = 0.0001; %0.00001;
@@ -60,7 +67,7 @@ alpha = pi * [1,1]; % Keep alpha fixed at [pi, pi]
     disp(K);
     
     % Define a tolerance for determining "close to zero"
-    tolerance = 0.001;
+    tolerance = 0.00001;
     
     singularValues = svd(matSR);
     [U, S, V] = svd(matSR);
@@ -86,8 +93,8 @@ ker = pseudoKernel(:,1); % Select one of the pseudokernel vectors
 
 % --- Plot the outside field  ---
     % Define grid values
-    x1_vals = linspace(-0.5, 1.5, 50);
-    x2_vals = linspace(-0.5, 1.5, 50);
+    x1_vals = linspace(-0.5, 0.5, 50);
+    x2_vals = linspace(-0.5, 0.5, 50);
     [x1, x2] = meshgrid(x1_vals, x2_vals);
 
     % Initialize storage for results
@@ -105,9 +112,9 @@ ker = pseudoKernel(:,1); % Select one of the pseudokernel vectors
  
 %% --- Plot the outside field ---
 
-Sol = imag(Res);
+Sol = abs(Res);
      
-lim = 0.1;  % Size of the plotting window
+lim = 0.08;  % Size of the plotting window
 fs  = 26;   % Fontsize of the annotations
 
 % --- Create a surface plot ---
