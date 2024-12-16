@@ -18,14 +18,14 @@ alpha =  [1,1]; % Keep alpha fixed at [pi, pi]
 
 %       -> change R below accordingly
 
-    % --- Values for alpha = [pi, pi]
+    % --- Values for alpha = [pi, pi] ---
     %beta = pi * [-1, 1];            % Dilute resonators R = 0.00001
     %beta = 3.98415  * [1,1];        % R = 0.05  SLP = 2
     %beta = 4.61125 * [1,1];         % R = 0.1   SLP = 2
-    beta = 5.49465 * [1,1];         % R = 0.3   SLP = 2 NEW
+    %beta = 5.49465 * [1,1];         % R = 0.3   SLP = 2 NEW
     %beta = 4.611103 * [1,1];        % R = 0.1   SLP = 4
 
-    % --- Values for alpha = [1, 1]
+    % --- Values for alpha = [1, 1] ---
      %beta = 6.13148 * [1, -1];      % R = 0.1; SLP = 4, alpha = [1,1]
      beta = 1.25195 * [1, -1];      % R = 0.001; SLP = 2, alpha = [1,1]
   
