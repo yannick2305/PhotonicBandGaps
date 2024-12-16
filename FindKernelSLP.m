@@ -9,17 +9,20 @@
 clear all;
 close all;
 
+% Remark: The beta path is assumed to be beta = [beta, beta].
+
 % --- Set the parameters ---
-    alpha      = [pi, pi];  % Real qusimomentum
+    alpha      = [1, 1];  % Real qusimomentum
+    slope      = -1;        % beta = [bet, slope * bet]
     N_multi    = 4;         % Number of multipoles
     N_lattice  = 20;        % Lattice sum size 
     R          = 0.1;       % Resontor radius
     lowerBound = 0;
-    upperBound = 5;
+    upperBound = 10;
 
 % --- compute the minimum in the specified range ---
-    options = optimset('TolX', 1e-6, 'TolFun', 1e-6);
-    [minValue, minBeta] = fminbnd(@(beta) minSV(beta, alpha, N_multi,N_lattice,  R), lowerBound, upperBound);
+    options = optimset('TolX', 1e-3, 'TolFun', 1e-6);
+    [minValue, minBeta] = fminbnd(@(beta) minSV(beta, alpha, N_multi, N_lattice, R, slope), lowerBound, upperBound);
 
 % --- Display results ---
     fprintf('----------------------------\n');
@@ -29,14 +32,13 @@ close all;
 %% --- Double check the result by pltting the smallest singular value ---
 
 % --- plot the smallest singular values ---
-x_values = linspace(0, 2*pi, 100); 
-plotSmallestSingularValues(x_values, R, alpha, N_multi, N_lattice)
+x_values = linspace(minValue-0.0001, minValue+0.0001, 100); 
+plotSmallestSingularValues(x_values, R, alpha, N_multi, N_lattice, slope)
 
 
 %% --- Definining functions ---
 
-
-function result = minSV(bet, alp, N_multi, N_lattice, R)
+function result = minSV(bet, alp, N_multi, N_lattice, R, slope)
 
 % --- Define the parameters ---
     k0 = 0.001;           
@@ -52,7 +54,7 @@ function result = minSV(bet, alp, N_multi, N_lattice, R)
     L2y = D;
     L2 = [L2x,L2y];
 
-    beta  = [bet, bet];
+    beta  = [bet, slope * bet];
     alpha = alp; 
 
 % --- Generate the single layer potenial ---
@@ -66,8 +68,7 @@ function result = minSV(bet, alp, N_multi, N_lattice, R)
 
 end
 
-
-function plotSmallestSingularValues(x_values, R, alpha, N_multi, N_lattice)
+function plotSmallestSingularValues(x_values, R, alpha, N_multi, N_lattice, slope)
    
     % --- Define the parameters ---
         k0 = 0.001;           
@@ -88,7 +89,7 @@ function plotSmallestSingularValues(x_values, R, alpha, N_multi, N_lattice)
     
         for i = 1:length(x_values)
             x = x_values(i);
-            beta = [x, x];
+            beta = [x, slope * x];
             
             % --- Generate the single layer potenial ---
                 matS = makeS(k0, R, alpha, L1x, L2, d_zeta, JHdata, JHijdata, N, N_multi, N_lattice);
