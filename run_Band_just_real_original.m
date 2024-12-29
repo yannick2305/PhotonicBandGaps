@@ -1,3 +1,12 @@
+%{
+    ---------------------------------------------------------
+    Author(s):    [Erik Orvehed HILTUNEN , Yannick DE BRUIJN]
+    Date:         [December 2024]
+    Description:  [Run File for the real band functions]
+    ---------------------------------------------------------
+%}
+
+
 clear all;
 close all;
 
