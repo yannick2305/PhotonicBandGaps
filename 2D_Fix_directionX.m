@@ -376,7 +376,7 @@ function ws = my_function(alpha,tbet)
     D = 1;          % D = 1 has to be true
     c1 = 1/2*D*[1,1];
     c = c1;
-    N_lattice = 4;      % Use 4
+    N_lattice = 4;      % Use about 10
     N_multi = 3;          % Use about 4 and keep it fixed
     d_zeta=makezetadata;
     JHdata = makeJHdata0(k0,R,N_multi);
