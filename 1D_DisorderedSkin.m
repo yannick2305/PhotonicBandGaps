@@ -22,9 +22,11 @@ delta = 0.001;  % Contrast
 %% --- Generate random resonator chain ---
 
     % Remark: While it is possible to generate a completely random chain by
-    % uncommenting the code below, we refrain from doing so as the results we
-    % present would be no longer random. Alternatively we treat the case of
-    % "introduce two dimers" at some position.
+    %         uncommenting the code below, we refrain from doing so as the 
+    %         decay due the intefrace is an a posteriori estimate, i.e. one
+    %         has to know the dimer positions in order to estimate the decay
+    %         lenght. A pregenerated resonaor chain can be found below.
+    
     %{
     % --- Initialize arrays ---
     l = [];
