@@ -226,3 +226,4 @@ function PlotEigenvalues(N, s, gamma, l)
     xlabel('Index', 'Interpreter', 'latex', 'FontSize', 14);
     ylabel('Eigenvalue', 'Interpreter', 'latex', 'FontSize', 14);
     grid on; 
+end
