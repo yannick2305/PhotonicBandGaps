@@ -60,8 +60,8 @@
 function w_real = my_function(beta, alpha, R)
 
     % Parameters for numerical computations
-    N_lattice = 5;      % Use about 5
-    N_SLP = 2;          % Use about 3
+    N_lattice = 10;      % Use about 10
+    N_SLP     = 2;       % Use about 3
 
     % Parameters/Geometry of the resonator screen
     k0 = 0.001;
