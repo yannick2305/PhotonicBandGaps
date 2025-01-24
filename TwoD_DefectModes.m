@@ -102,7 +102,7 @@ function integral_value = Cm(i, j)
     % --- Set values for numerical computation ----------------
     Nq          = 20;   % Convergence   O(dx^2 + dy^2), use 15.
     N_multipole = 1;    % 1 for single resonator, 5 for dimer.
-    N_lattice   = 5;    % lattice sum is algebraicly convergent use 3-4.
+    N_lattice   = 5;    % lattice sum is exponentially convergent use 3-4.
 
     % --- Define the Brillouin zone ---------------------------
     a = -pi;
