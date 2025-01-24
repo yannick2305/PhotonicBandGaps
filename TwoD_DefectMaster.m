@@ -80,18 +80,19 @@ tic;
 
 % --- Plot the decay as a function of the frequency ---
     figure; 
-    plot(combinedResults(:,1), combinedResults(:,2), '-', 'MarkerSize', 5, 'LineWidth', 2, 'Color', 'b');
+    plot(combinedResults(:,1), combinedResults(:,2), 'x', 'MarkerSize', 5, 'LineWidth', 2, 'Color', 'b');
     xlabel('$\beta$', 'Interpreter', 'latex', 'FontSize', 28);
     ylabel('$\omega$', 'Interpreter', 'latex', 'FontSize', 28);
     set(gca, 'FontSize', 20);
 
 % --- Display the results ---
+    %{
     fprintf('------------------------------------------\n');
     disp('  [Decay,   Frequency]');
     for i = 1:size(combinedResults, 1)
         fprintf('  %.5f   %.3f\n', combinedResults(i, 1), combinedResults(i, 2));
     end
-
+    %}
 
 %% --- Excite specific quasiperiodic bands --------------------------------
 %
@@ -155,7 +156,7 @@ tic;
 
 % --- Plot the decay as a function of the frequency ---
     figure; 
-    plot(combinedResults(:,1), combinedResults(:,2), '.', 'MarkerSize', 5, 'LineWidth', 2, 'Color', 'b');
+    plot(combinedResults(:,1), combinedResults(:,2), 'x', 'MarkerSize', 5, 'LineWidth', 2, 'Color', 'b');
     xlabel('$\beta$', 'Interpreter', 'latex', 'FontSize', 28);
     ylabel('$\omega$', 'Interpreter', 'latex', 'FontSize', 28);
     set(gca, 'FontSize', 20);
