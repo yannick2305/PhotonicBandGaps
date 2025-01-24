@@ -2,7 +2,7 @@
     --------------------------------------------------------------
     Author(s):    [Erik Orvehed HILTUNEN , Yannick DE BRUIJN]
     Date:         [December 2024]
-    Description:  [1D skin effect, random gauge potential]
+    Description:  [1D skin effect with a random gauge potential]
     --------------------------------------------------------------
 %}
 
@@ -10,14 +10,14 @@ close all;
 clear all;
 
 % --- Set the parameters ---
-    N_cells = 30;          % Number of unit cells.
+    N_cells = 40;          % Number of unit cells.
     n       = 2;           % Number of resonators per unit cell.
     spacing = [1, 2];      % Spacings   (length n).
-    length  = [1, 1];      % Resonators (length n).
+    length  = [0.8, 1.2];  % Resonators (length n).
 
-    gamma_mean = 0.45;     % Mean of the gauge potential.
-    gamma_min  = -0.5;     % Lower bound of gauge potential.
-    gamma_max  = 1;        % Upper bound of gauge potential.
+    gamma_mean = 1;        % Mean of the gauge potential.
+    gamma_min  = 0.5;      % Lower bound of gauge potential.
+    gamma_max  = 2;        % Upper bound of gauge potential.
 
 
 % --- Generate random gauge potential on resonators ---
@@ -63,7 +63,7 @@ clear all;
 
 %% --- Plot the eigenvalues ---
 
-    PlotEigenvalues(N, s, gamma, l)
+    % PlotEigenvalues(N, s, gamma, l)
 
 
 %% --- Defining functions ---
@@ -91,8 +91,12 @@ function plot_all_eigenvectors(N, s, gamma, l, len, mean)
     % --- Add the predicted exponential decay rate ---
         x = 0:N; 
         constant = 1;
-        %y =  constant * exp(- gamma * 0.5 * (1 / length(len)) * sum(len) * x);
-        y =  constant * exp(- 0.5 * (mean) * len(1) * x); 
+        y =  constant * exp(- 0.5 * (mean) * sum(len) / length(len) * x); 
+
+        % Remark:   We are plotting the mode evaluated at the resonators,
+        %           therefore the decay rate has to be devided by the number of
+        %           resonators in the unit cell, i.e. length(len).
+
         plot(x, (y), 'r', 'LineWidth', lw); 
    
     % --- Formatting the plot ---
