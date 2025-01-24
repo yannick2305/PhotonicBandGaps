@@ -282,7 +282,7 @@ tic;
 
 
 % --- Set the frequency range within the Bandgap ---
-    w_values =  0.579973 : 0.01 : 2.2;  % Bandgap starts at: w0 = 0.579973;
+    w_values =  0.579973 : 0.01 : 1.5;  % Bandgap starts at: w0 = 0.579973;
     Nalpha = 40;                        % Discretization of alpha grid. Use Nalpha = 50.
 
 % --- Create VideoWriter to save the movie ---
