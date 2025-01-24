@@ -10,22 +10,22 @@ close all;
 clear all;
 
 % --- Set the parameters ---
-    N_cells = 20;          % Number of unit cells.
-    n       = 3;           % Number of resonators per unit cell.
-    spacing = [3, 2, 3];      % Spacings (length n).
-    length  = [1, 2, 1 ];      % Resonators (length n).
-    gamma   = 1;           % Complex Gauge potential.
+    N_cells     = 20;          % Number of unit cells.
+    spacing     = [3, 2, 3];   % Spacings.
+    res_length  = [1, 2, 1 ];  % Resonators (same array size as spacings).
+    gamma       = 1;           % Complex Gauge potential.
 
 % --- Initialise arrays ---
-    s = repmat(spacing, 1, N_cells);  
-    l = repmat(length, 1, N_cells);   
-    N = N_cells * n;
+    s = repmat(spacing,    1, N_cells);  
+    l = repmat(res_length, 1, N_cells);   
+    n  = length(res_length);          
 
+    N = N_cells * n; % Total number of resonators
 
 
 %%  --- Plot the eigenvector entries and illustrate exponential decay ---
 
-    plot_all_eigenvectors(N, s, gamma, l, length);
+    plot_all_eigenvectors(N, s, gamma, l, res_length);
 
 
 %% --- Plot the geometry of the resonator chain ---
@@ -35,7 +35,7 @@ clear all;
 
 %% --- Plot the eigenvalues ---
 
-    PlotEigenvalues(N, s, gamma, l)
+    %PlotEigenvalues(N, s, gamma, l)
 
 
 %% --- Defining functions ---
@@ -64,7 +64,12 @@ function plot_all_eigenvectors(N, s, gamma, l, len)
     % --- Add the predicted exponential decay rate ---
         x = 0:N; 
         constant = 1;
-        y =  constant * exp(- gamma * 0.5 * (1 / length(len)) * sum(len) * x); 
+        y =  constant * exp(- gamma * 0.5 * sum(len) * (1 / length(len)) * x);
+
+        % Remark:   We are plotting the mode evaluated at the resonators,
+        %           therefore the decay rate has to be devided by the number of
+        %           resonators in the unit cell, i.e. length(len).
+
         plot(x, (y), 'r', 'LineWidth', lw); 
    
     % --- Formatting the plot ---
@@ -152,5 +157,6 @@ function PlotEigenvalues(N, s, gamma, l)
     ylabel('Eigenvalue', 'Interpreter', 'latex', 'FontSize', 14);
     grid on; 
 end
+
 
 
