@@ -20,9 +20,9 @@ close all;
 
 % --- Generate the "true" reference SLP using the three methods  ---
     Lattice_ref = 1000; 
-    Kummer    =  makeSKa0(k0, R, beta, N_SLP, Lattice_ref);
-    Intuitive =  makeRIntuitive(k0, R, alpha, beta, N_SLP, Lattice_ref);
-    Old       = -makeR(k0, R, alpha, beta, N_SLP, Lattice_ref); 
+    Kummer      =  makeSKa0(k0, R, beta, N_SLP, Lattice_ref);
+    Intuitive   =  makeRIntuitive(k0, R, alpha, beta, N_SLP, Lattice_ref);
+    Old         = -makeR(k0, R, alpha, beta, N_SLP, Lattice_ref); 
 
 % --- Initialise arrays ---
     n_values = round(logspace(log10(1), log10(500), 30)); 
@@ -31,7 +31,7 @@ close all;
     convergence3 = zeros(length(n_values), 1);
 
 % --- Loop over the truncation parameter n ---
-    parfor idx = 1:length(n_values)
+    for idx = 1:length(n_values)
         n = n_values(idx);
         
         A1_n =  makeSKa0(k0, R, beta, N_SLP, n);
