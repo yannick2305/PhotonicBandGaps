@@ -15,7 +15,7 @@ clear all;
 close all;
 
 % --- Set the parameters ---
-    delta = 0.01;        % Contrast (jump of the normal derivative)
+    delta = 0.01;       % Contrast (jump of the normal derivative)
     s_1   = 0.6;        % Spacing between the resonators
     N_points = 100;     % Discretisation points used in plot
     L = s_1 + 1;        % Length of the unit cell
@@ -25,8 +25,8 @@ close all;
     f_2 = @(x) sqrt(delta * (2 / s_1) * (1 + cosh(x * L)));
 
 % --- Define the range for x ---
-    x_range = linspace(-pi/L, pi/L, N_points);         % First Brillouin zone
-    beta_range_2 = linspace(-4.3/L, 4.3/L, N_points);      % Real numbers
+    x_range = linspace(-pi/L, pi/L, N_points);           % First Brillouin zone
+    beta_range_2 = linspace(-4.3/L, 4.3/L, N_points);    % Real numbers
 
 % --- Evaluate the functions on the grid ---
     y_values_1 = real(f_1(x_range));               % Real band 
