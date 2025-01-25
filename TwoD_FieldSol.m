@@ -1,9 +1,9 @@
 %{
-    --------------------------------------------------------------
+    -----------------------------------------------------------
     Author(s):    [Erik Orvehed HILTUNEN , Yannick DE BRUIJN]
     Date:         [December 2024]
-    Description:  [Evaluate the outside field directly.]
-    --------------------------------------------------------------
+    Description:  [Evaluate the outside field directly]
+    -----------------------------------------------------------
 %}
 
 clear all;
@@ -11,10 +11,11 @@ close all;
 
 N_multi = 2;        
 
-alpha =  [1,1]; % Keep alpha fixed at [pi, pi]
+alpha =  pi * [1,1]; % Keep alpha fixed at [pi, pi]
 
 % --- Precomputed vlaues where SLP has nontrivial kernel ---
-%     Remark: other parameters can be precomputed in FindKernelSLP.m
+
+%     Remark: other parameters can be precomputed in TwoD_FindKernelSLP.m
 
 %       -> change R below accordingly
 
@@ -22,15 +23,15 @@ alpha =  [1,1]; % Keep alpha fixed at [pi, pi]
     %beta = pi * [-1, 1];            % Dilute resonators R = 0.00001
     %beta = 3.98415  * [1,1];        % R = 0.05  SLP = 2
     %beta = 4.61125 * [1,1];         % R = 0.1   SLP = 2
-    %beta = 5.49465 * [1,1];         % R = 0.3   SLP = 2 NEW
+    beta = 5.49465 * [1,1];         % R = 0.3   SLP = 2 NEW
     %beta = 4.611103 * [1,1];        % R = 0.1   SLP = 4
 
     % --- Values for alpha = [1, 1] ---
      %beta = 6.13148 * [1, -1];      % R = 0.1; SLP = 4, alpha = [1,1]
-     beta = 1.25195 * [1, -1];      % R = 0.001; SLP = 2, alpha = [1,1]
+     %beta = 1.25195 * [1, -1];      % R = 0.001; SLP = 2, alpha = [1,1]
   
 
-    R =  0.001;  % Resonator radius
+    R =  0.3;  % Resonator radius
 
 % --- Define the parameters ------------------------------------------
     k0 = 0.0001; %0.00001;
@@ -38,7 +39,7 @@ alpha =  [1,1]; % Keep alpha fixed at [pi, pi]
     D = 1;              
     c1 = 1/2*D*[0,0];  
     c = c1;
-    N_lattice = 30;      
+    N_lattice = 30;       % Use N = 100 due to slow lattice sum convergence
     d_zeta=makezetadata;
     JHdata = makeJHdata0(k0,R,N_multi);
     JHijdata = makeJHijexpdata(k0,c,N_multi);
@@ -48,7 +49,7 @@ alpha =  [1,1]; % Keep alpha fixed at [pi, pi]
     L1 = [L1x, 0];
     L2 = [L2x,L2y];
     vol = pi*R^2;
-    delta = 0.0001; %1e-3;
+    delta = 0.001; 
     vb = 1;
 
 % Compute the omplex single layer potential 
@@ -94,8 +95,8 @@ ker = pseudoKernel(:,1); % Select one of the pseudokernel vectors
 
 % --- Plot the outside field  ---
     % Define grid values
-    x1_vals = linspace(-0.5, 0.5, 50);
-    x2_vals = linspace(-0.5, 0.5, 50);
+    x1_vals = linspace(-0.5, 1.5, 50);
+    x2_vals = linspace(-0.5, 1.5, 50);
     [x1, x2] = meshgrid(x1_vals, x2_vals);
 
     % Initialize storage for results
@@ -103,7 +104,7 @@ ker = pseudoKernel(:,1); % Select one of the pseudokernel vectors
 
     % Loop over the grid
     for i = 1:size(x1, 1)
-        parfor j = 1:size(x2, 2)
+        for j = 1:size(x2, 2)
             x = [x1(i, j), x2(i, j)];
             
             Res(i, j) = evaldFieldR(x, ker, alpha, beta, k0, R, N_multi, N_lattice);
@@ -113,9 +114,9 @@ ker = pseudoKernel(:,1); % Select one of the pseudokernel vectors
  
 %% --- Plot the outside field ---
 
-Sol = abs(Res);
+Sol = real(Res);
      
-lim = 0.08;  % Size of the plotting window
+lim = 0.1;  % Size of the plotting window
 fs  = 26;   % Fontsize of the annotations
 
 % --- Create a surface plot ---
@@ -187,7 +188,7 @@ function res = LatticeSum(n, x, alpha, beta, w, R, N_lattice)
     
     % Scale the result
     scale = 2 * pi * R * (-1i)^(n);
-    res = scale * lattice_sum;
+    res   = scale * lattice_sum;
 end
 
 
