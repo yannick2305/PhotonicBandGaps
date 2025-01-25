@@ -54,9 +54,10 @@ close all;
     % Horizontal lines separating the Band and Bandgap
     y_val = f_1(pi/L);
     line([-3,3], [y_val, y_val], 'Color', 'k', 'LineStyle', ':', 'LineWidth', 1);
-    xticks([-pi/L, 0, pi/L]); % Set ticks at -pi/L and pi/L
-    xticklabels({'$-\pi/L$', '$0$', '$\pi/L$'}); % Set corresponding labels
+    xticks([-pi/L, 0, pi/L]); 
+    xticklabels({'$-\pi/L$', '$0$', '$\pi/L$'}); 
     ylim([0, 1]);
+    
     % Adding labels, legend and ticks
     xlabel('$\alpha$ and $\beta$ respectively', 'FontSize', fs, 'Interpreter', 'latex');
     ylabel('\omega^{\alpha, \beta}', 'FontSize', fs);
