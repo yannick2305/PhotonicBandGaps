@@ -1,19 +1,34 @@
-clear all
-close all
+%{
+    ---------------------------------------------------------
+    Author(s):    [Erik Orvehed HILTUNEN , Yannick DE BRUIJN]
+    Date:         [November 2024]
+    Description:  [Plot the complex band structure (Experimental)]
+    ---------------------------------------------------------
+%}
+
+% Code supporting the figures from arXiv:2409.14537
+% -> More efficient implmentation can be found in TwoD_ComplexBands.m
+
 % Suppose that beta has fixed, specified direction and alpha traverses BZ.
 % Uses Muller's method to find zeros of imag(C).
+
+clear all
+close all
+
+% --- Number of plotting points ---
+Na = 100;
+Nb = 100;
+alphas = linspace(pi*1e-5, pi-0.001, Na);
+
+% --- Parameters for Muller's method ---
+distTol = 5e-5;
+fTol    = 1e-8;
+iterMax = 50;
+e       = 1e-4;
 
 %% GtM: branch of alpha from Gamma to M 
 z0s = [-5.19, 0]; % Precomputed initial guesses for R = 0.05
 N0 = length(z0s);
-Na = 50; % Adjust as needed
-alphas = linspace(pi*1e-5, pi-0.001, Na);
-
-% Parameters for Muller's method
-distTol = 5e-5;
-fTol = 1e-8;
-iterMax = 50;
-e = 1e-4;
 
 betas = zeros(Na,N0);
 ws = zeros(Na,N0);
@@ -48,18 +63,35 @@ for Ia = 1:Na
 end
 
 %% Add branch for fixed alpha = 0
-Nb = 200;
-betas3 = linspace(-6,0,Nb);
-ws3 = zeros(Nb,1);
-alpha3 = 1e-6*[pi,pi];
-for Ib = 1:Nb
-    ws3(Ib) = fixalpha(alpha3,betas3(Ib));
-    if abs(imag(ws3(Ib))) > 5e-2
-        ws3(Ib) = NaN;
+
+
+% --- Add branch at alpha = 0 using Kummer's method ---
+    
+    % Beta range
+    betas3 = linspace(-6,0,Nb);
+    ws3 = zeros(Nb,1);
+    alpha3 = [0, 0];
+
+    N_mul = 2;
+    N_lat = 5;
+    k0 = 0;
+    R = 0.05; 
+    vol = pi*R^2;
+    delta = 1e-3;
+    vb = 1;
+    slope = 1;
+   
+    for i = 1:length(betas3)
+        beta = betas3(i);            
+        CR = makeCRKummer(k0, R, beta*[1,slope], N_mul, N_lat); 
+        ws1 = abs(real(sort(vb * sqrt(abs(delta * eig(CR) ./ vol)))));      
+    
+        ws3(i) = ws1(1); 
     end
-end
-ws3(end-6)=ws3(end-7);
-betas3(end-6) = 0;
+    ws3(end-6)=ws3(end-7);
+    betas3(end-6) = 0;
+
+    
 
 %% Add branch for fixed alpha = [pi,pi]
 ws4 = zeros(Nb,1);
@@ -75,7 +107,6 @@ end
 %% MtG: branch of alpha from M to X
 z0s = [-2.525, 0]; % Precomputed initial guesses for R = 0.05 at M
 N0 = length(z0s);
-Na = 200; % Adjust as needed
 alphas5 = linspace(0.005, pi-0.001, Na);
 
 betas5 = zeros(Na,N0);
@@ -98,7 +129,6 @@ end
 %% XtG: branch of alpha from X to Gamma
 z0s = [-5.08, 0]; % Precomputed initial guesses for R = 0.05 at M
 N0 = length(z0s);
-Na = 200; % Adjust as needed
 alphas6 = linspace(pi*1e-5, pi-0.001, Na);
 
 betas6 = zeros(Na,N0);
@@ -133,7 +163,7 @@ for Ia = 1:Na
 end
 
 %% Add branch for fixed alpha = 0
-Nb = 200;
+
 betas8 = linspace(-6,0,Nb);
 ws8 = zeros(Nb,1);
 alpha8 = 1e-5*[0,pi];
@@ -242,8 +272,8 @@ function ws = my_function(alpha,tbet)
     D = 1;         % D = 1 has to be true
     c1 = 1/2*D*[1,1];
     c = [c1];
-    N_lattice = 8;      % Use about 5
-    N_multi = 6;          % Use about 5
+    N_lattice = 4;       % Use about 5
+    N_multi = 3;          % Use about 5
     d_zeta=makezetadata;
     JHdata = makeJHdata0(k0,R,N_multi);
     JHijdata = makeJHijexpdata(k0,c,N_multi);
@@ -260,4 +290,80 @@ function ws = my_function(alpha,tbet)
     CR = makeCRSlow(k0, R, alp, bet, L1x, L2, d_zeta, JHdata, JHijdata, N, N_multi, N_lattice);
     ws = sort(vb*sqrt(delta*eig(CR)./vol));
 
+end
+
+
+function root = MullersMethod(func, z0_2e, z0_e, z0, iterMax, distTol, fTol)
+    % MullersMethod implements Müller's method to find the root of a function.
+    % 
+    % Parameters:
+    %   func     : Handle to the function whose root is being sought.
+    %   z0_2e    : First initial guess (z0 - 2*e).
+    %   z0_e     : Second initial guess (z0 - e).
+    %   z0       : Third initial guess (z0).
+    %   iterMax  : Maximum number of iterations.
+    %   distTol  : Tolerance on the distance between consecutive iterates.
+    %   fTol     : Tolerance on the function value at the root (|f(root)|).
+    % 
+    % Returns:
+    %   root : The estimated root.
+    
+    % Initialize the initial guesses
+    x0 = z0_2e;
+    x1 = z0_e;
+    x2 = z0;
+    
+    % Iterate using Müller's method
+    for i = 1:iterMax
+        % Calculate function values at the guesses
+        f0 = func(x0);
+        f1 = func(x1);
+        f2 = func(x2);
+        
+        % Calculate h values
+        h0 = x1 - x0;
+        h1 = x2 - x1;
+        
+        % Calculate deltas
+        delta0 = (f1 - f0) / h0;
+        delta1 = (f2 - f1) / h1;
+        
+        % Calculate the second difference coefficient (a)
+        d = (delta1 - delta0) / (h1 + h0);
+        
+        % Calculate coefficients
+        a = d;
+        b = delta1 + h1 * a;
+        c = f2;
+        
+        % Calculate the discriminant
+        discriminant = sqrt(b^2 - 4 * a * c);
+        
+        % Choose the denominator for the quadratic formula (avoid cancellation)
+        if abs(b + discriminant) > abs(b - discriminant)
+            denominator = b + discriminant;
+        else
+            denominator = b - discriminant;
+        end
+        
+        % Update the next guess (Müller's formula)
+        dx = -2 * c / denominator;
+        x3 = x2 + dx;
+        
+        % Check stopping criteria
+        if abs(dx) < distTol || abs(func(x3)) < fTol
+            root = x3;
+            %fprintf('Root found at x = %f after %d iterations.\n', real(root), i);
+            return;
+        end
+        
+        % Update points for the next iteration
+        x0 = x1;
+        x1 = x2;
+        x2 = x3;
+    end
+    
+    % If we reach the maximum iterations without convergence
+    %warning('Maximum iterations reached without convergence.');
+    root = x3;  % Return the best estimate of the root
 end
