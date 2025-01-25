@@ -1,39 +1,26 @@
 %{
-    ---------------------------------------------------------
+    --------------------------------------------------------------
     Author(s):    [Erik Orvehed HILTUNEN , Yannick DE BRUIJN]
     Date:         [November 2024]
-    Description:  [Plot the complex band structure]
-    ---------------------------------------------------------
+    Description:  [Plot the complex band structure (Experimental)]
+    ---------------------------------------------------------------
 %}
 
-% Objective 1:
-%   Generate a spectral plot of the complex bandstructure for beta along
-%   a horizontal path, while alpha traverses the Brillouin zone. To compute 
-%   the complex bandstructure, Muller's method is used to locate the zeros of 
-%   the imaginary part of the capacitance matrix.
-%
-% Objective 2:
-%   Overlay the spectral plot with the experimentally measured decay rates 
-%   of the bandgap resonant modes. This overlay will demonstrate how the 
-%   decay rates correspond to the complex bandstructure, illustrating the 
-%   relationship between the observed decay and the complex band structure
-%   of the system.
-%
-% Objective 3:
-%   Specifically excite spectral bands using alpha-quasiperiodic sources
-%   and overlay the result onto the spectral plot.
+% Code supporting the figures from arXiv:2409.14537
+% -> More efficient implmentation can be found in TwoD_ComplexBands.m
 
 clear all;
 close all;
 
 % --- Set plotting parameters --- 
-    Na = 50; % Number of plotting points
+    Na = 50; 
     Nb = 50;
-    % Parameters for Muller's method
+
+% --- Parameters for Muller's method ---
     distTol = 5e-5;
-    fTol = 1e-8;
+    fTol    = 1e-8;
     iterMax = 50;
-    e = 1e-4;
+    e       = 1e-4;
 
 % --- Compute the spectral Bands ---
 
@@ -94,19 +81,32 @@ for Ia = 1:Na
     ws2(Ia) = my_function(alp,betas2(Ia));
 end
 
-%% Add branch for fixed alpha = 0, i.e. the unstable band
+%% Add branch for fixed alpha = 0 (Kummer's Method)
 
-betas3 = linspace(-6,0,Nb);
-ws3 = zeros(Nb,1);
-alpha3 = 1e-5*[0,pi];
-for Ib = 1:Nb
-    ws3(Ib) = my_function(alpha3,betas3(Ib));
-    if abs(imag(ws3(Ib))) > 5e-2
-        ws3(Ib) = NaN;
+    % Beta range
+    betas3 = linspace(-6,0, Nb);
+    ws3 = zeros(Nb,1);
+    alpha3 = [0, 0];
+
+    N_mul = 2;
+    N_lat = 5;
+    k0 = 0;
+    R = 0.05; 
+    vol = pi*R^2;
+    delta = 1e-3;
+    vb = 1;
+    slope = 0;
+   
+    for i = 1:length(betas3)
+        beta = betas3(i);            
+        CR = makeCRKummer(k0, R, beta*[1,slope], N_mul, N_lat); 
+        ws1 = abs(real(sort(vb * sqrt(abs(delta * eig(CR) ./ vol)))));      
+    
+        ws3(i) = ws1(1); 
     end
-end
-ws3(end-10)=ws3(end-11);
-betas3(end-10) = 0;
+    %ws3(end-6)=ws3(end-7);
+    %betas3(end-6) = 0;
+
 
 %% Add branch for fixed alpha = [0,pi]
 ws4 = zeros(Nb,1);
@@ -210,74 +210,11 @@ for Ib = 1:Nb
         ws9(Ib) = NaN;
     end
 end
-return
+
 
 
 %% --- Plotting the spectral Bands ---
 
-% --- Precomputed values to overlay with spectral plot---
-
-    % Precomputed values from: DecayLength2D. m
-    decay_rate = [
-        -0.535417837906244   0.579973000000000;
-        -1.137091575352603   0.589973000000000;
-        -1.554677808318674   0.609973000000000;
-        -1.932451850349650   0.639973000000000;
-        -2.264783501307075   0.669973000000000;
-        -2.597151924621312   0.699973000000000;
-        -2.948123541988141   0.729973000000000;
-        -3.197225381119221   0.749973000000000;
-        -3.574721615520123   0.779973000000000;
-        -3.763257645788853   0.799973000000000;
-        -3.813461288176967   0.819973000000000;
-        -3.745393700695749   0.839973000000000;
-        -3.630739606271542   0.859973000000000;
-        -3.569108324983792   0.869973000000000
-        -3.448623445660861   0.889973000000000;
-        -3.337961097711602   0.909973000000000;
-        -3.239397088445475   0.929973000000000;
-        -3.152577980200874   0.949973000000000;
-        -3.076249441240878   0.969973000000000;
-        -2.978326715567106   0.999973000000000;
-        -2.909174197382726   1.024973000000000;
-        -2.860510350512833   1.044973000000000;
-        -2.816838750776821   1.064973000000000;
-        -2.777458907825765   1.084973000000000;
-        -2.759192630564648   1.094973000000000;
-        -2.725191002010401   1.114973000000000;
-        -2.694203146919669   1.134973000000000;
-        -2.665856906311085   1.154973000000000;
-        -2.639837975543590   1.174973000000000;
-        -2.615879371667436   1.194973000000000;
-        -2.593753017597387   1.214973000000000;
-        -2.573263001884091   1.234973000000000;
-        -2.545232280737665   1.264973000000000;
-        -2.528140945720321   1.284973000000000;
-        ];
-    
-    % Precomputed values from: QuasiperiodicSource.m
-    % alpha = [pi, pi] Quasiperiodic source
-    quasi_source = [  
-      -0.000418828534270   0.579973000000000
-      -1.676392656278258   0.609973000000000
-      -2.235431420971876   0.639973000000000
-      -2.621631420683334   0.669973000000000
-      -2.927059368783901   0.699973000000000
-      -3.186126953933953   0.729973000000000
-      -3.415957172537171   0.759973000000000
-      -3.626610888988518   0.789973000000000
-      -3.824786757593992   0.819973000000000
-      -4.015481581392450   0.849973000000000
-      -4.202885790892657   0.879973000000000
-      -4.390983861837827   0.909973000000000
-      -4.584089651303600   0.939973000000000
-      -4.787490428840056   0.969973000000000
-      -5.008402337016043   0.999973000000000
-      -5.257431998378033   1.029973000000000
-      -5.549491953381525   1.059973000000000
-      ];
-
-% --- Plotting the spectral Bands ---
     figure;
     fsz  = 16;
     lfsz = 12;
@@ -293,9 +230,9 @@ return
     plot(betas2,ws2,'r','linewidth',lw) 
 
     % Band alpha = [0,0]
-    plot(betas3(1:end-10),real(ws3(1:end-10)),'r','linewidth',lw)
-    plot(alpha3(2)*ones(size(ws3(1:end-10))),real(ws3(1:end-10)),'r','linewidth',lw)
-    plot(alpha3(1)*ones(size(ws3(1:end-10))),[1.05;ws3(2:end-10)],'r','linewidth',lw)
+    plot(betas3(1:end),real(ws3(1:end)),'r','linewidth',lw)
+    plot(alpha3(2)*ones(size(ws3(1:end))),real(ws3(1:end)),'r','linewidth',lw)
+    plot(alpha3(1)*ones(size(ws3(1:end))),[1.05;ws3(2:end)],'r','linewidth',lw)
     line([0, 0], [1.05, 1.5], 'Color', 'r', 'LineWidth', lw); 
     line([9.08078, 9.08078], [0.915, 1.5], 'Color', 'r', 'LineWidth', lw);
     
@@ -322,13 +259,6 @@ return
     plot(betas5(:,1),ws5(:,1),'k','linewidth',lw) 
     plot(alphas6,ws6(:,1),'k','linewidth',lw) 
     plot(betas6(:,1),ws6(:,1),'k','linewidth',lw) 
-
-% --- Uncomment below to get the desired result ---
-    % Plot the decay as a function of the frequency 
-    plot( decay_rate(:,1) + 0.24, decay_rate(:,2), 'x', 'Color', 'b', 'MarkerSize', 6,'LineWidth', 1.5);
-    
-    % Excite specific bands using quasiperiodic sources
-    %plot( quasi_source(:,1), quasi_source(:,2), 'x', 'Color', 'b', 'MarkerSize', 6,'LineWidth', 1.5); 
 
 % --- Figure and axis properties --- 
     % Adding labels, legend, ticks and figure properties
@@ -376,8 +306,8 @@ function ws = my_function(alpha,tbet)
     D = 1;          % D = 1 has to be true
     c1 = 1/2*D*[1,1];
     c = c1;
-    N_lattice = 4;      % Use about 10
-    N_multi = 3;          % Use about 4 and keep it fixed
+    N_lattice = 4;        % Use about 5
+    N_multi = 2;          % Use about 3 and keep it fixed
     d_zeta=makezetadata;
     JHdata = makeJHdata0(k0,R,N_multi);
     JHijdata = makeJHijexpdata(k0,c,N_multi);
