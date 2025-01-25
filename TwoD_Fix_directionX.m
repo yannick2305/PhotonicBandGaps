@@ -13,8 +13,8 @@ clear all;
 close all;
 
 % --- Set plotting parameters --- 
-    Na = 50; 
-    Nb = 50;
+    Na = 70; 
+    Nb = 70;
 
 % --- Parameters for Muller's method ---
     distTol = 5e-5;
@@ -22,68 +22,63 @@ close all;
     iterMax = 50;
     e       = 1e-4;
 
-% --- Compute the spectral Bands ---
+%% --- Compute the spectral Bands ---
 
-%% GtX: branch of alpha from Gamma to X
-
-z0s = 0; % Precomputed initial guesses for R = 0.05 at X
-N0 = length(z0s);
-
-alphas = linspace(pi*1e-5, pi-0.001, Na);
-
-betas = zeros(Na,N0);
-ws = zeros(Na,N0);
-for I0 = 1:N0
-    for Ia = 1:Na
-        alp = alphas(Ia)*[0,1];
-        func = @(bet) imag(my_function(alp,bet));
-        if Ia == 1        
-            z0 = z0s(I0);
-        else
-            z0 =  betas(Ia-1,I0);
+% --- Branch of alpha from Gamma to X---
+    z0s = 0;
+    N0 = length(z0s);
+    
+    alphas = linspace(pi*1e-5, pi-0.001, Na);
+    
+    betas = zeros(Na,N0);
+    ws = zeros(Na,N0);
+    for I0 = 1:N0
+        for Ia = 1:Na
+            alp = alphas(Ia)*[0,1];
+            func = @(bet) imag(my_function(alp,bet));
+            if Ia == 1        
+                z0 = z0s(I0);
+            else
+                z0 =  betas(Ia-1,I0);
+            end
+            betas(Ia,I0) =  real(MullersMethod(func, z0-2*e, z0-e, z0, iterMax, distTol, fTol));
+            ws(Ia,I0) = my_function(alp,betas(Ia,I0));
         end
-        betas(Ia,I0) =  real(MullersMethod(func, z0-2*e, z0-e, z0, iterMax, distTol, fTol));
-        ws(Ia,I0) = my_function(alp,betas(Ia,I0));
     end
-end
 
-%% Add branch that diverges in the middle
-
-z0 = -4.24; % Precomputed initial guesses
-alphas15 = linspace(pi*1e-5, 0.344, Na);
-betas15  = zeros(Na,1);
-ws15     = zeros(Na,1);
-
-for Ia = 1:Na
-    alp = alphas15(Ia)*[0,1];
-    func = @(bet) imag(my_function(alp,bet));
-    if Ia > 1
-        z0 =  betas15(Ia-1);
+% --- Branch that diverges in the middle ---
+    z0 = -4.24;
+    alphas15 = linspace(pi*1e-5, 0.344, Na);
+    betas15  = zeros(Na,1);
+    ws15     = zeros(Na,1);
+    
+    for Ia = 1:Na
+        alp = alphas15(Ia)*[0,1];
+        func = @(bet) imag(my_function(alp,bet));
+        if Ia > 1
+            z0 =  betas15(Ia-1);
+        end
+        betas15(Ia) =  real(MullersMethod(func, z0-2*e, z0-e, z0, iterMax, distTol, fTol));
+        ws15(Ia) = my_function(alp,betas15(Ia));
     end
-    betas15(Ia) =  real(MullersMethod(func, z0-2*e, z0-e, z0, iterMax, distTol, fTol));
-    ws15(Ia) = my_function(alp,betas15(Ia));
-end
 
-%% Add branch that diverges in the middle
-
-z0 = -1.97739; % Precomputed initial guesses
-alphas2 = linspace(0.24, 0.344, Na);
-betas2 = zeros(Na,1);
-ws2 = zeros(Na,1);
-betas2(1) = z0; 
-for Ia = 1:Na
-    alp = alphas2(Ia)*[0,1];
-    func = @(bet) imag(my_function(alp,bet));
-    if Ia > 1
-        z0 =  betas2(Ia-1);
-        betas2(Ia) =  real(MullersMethod(func, z0-2*e, z0-e, z0, iterMax, distTol, fTol));
+% --- Branch that diverges in the middle ---
+    z0 = -1.97739;
+    alphas2 = linspace(0.24, 0.344, Na);
+    betas2 = zeros(Na,1);
+    ws2 = zeros(Na,1);
+    betas2(1) = z0; 
+    for Ia = 1:Na
+        alp = alphas2(Ia)*[0,1];
+        func = @(bet) imag(my_function(alp,bet));
+        if Ia > 1
+            z0 =  betas2(Ia-1);
+            betas2(Ia) =  real(MullersMethod(func, z0-2*e, z0-e, z0, iterMax, distTol, fTol));
+        end
+        ws2(Ia) = my_function(alp,betas2(Ia));
     end
-    ws2(Ia) = my_function(alp,betas2(Ia));
-end
 
-%% Add branch for fixed alpha = 0 (Kummer's Method)
-
-    % Beta range
+% --- Branch for fixed alpha = 0 (Kummer's Method)---
     betas3 = linspace(-6,0, Nb);
     ws3 = zeros(Nb,1);
     alpha3 = [0, 0];
@@ -104,112 +99,103 @@ end
     
         ws3(i) = ws1(1); 
     end
-    %ws3(end-6)=ws3(end-7);
-    %betas3(end-6) = 0;
 
-
-%% Add branch for fixed alpha = [0,pi]
-ws4 = zeros(Nb,1);
-alpha4 = [0,pi];
-betas4 = linspace(-9,0,Nb);
-for Ib = 1:Nb
-    ws4(Ib) = my_function(alpha4,betas4(Ib));
-    if abs(imag(ws4(Ib))) > 1e-1
-        ws4(Ib) = NaN;
-    end
-end
-
-%% MtG: branch of alpha from M to X
-
-z0s = 0; % Precomputed initial guesses for R = 0.05 at M
-N0 = length(z0s);
-alphas5 = linspace(0.005, pi-0.001, Na);
-
-betas5 = zeros(Na,N0);
-ws5 = zeros(Na,N0);
-for I0 = 1:N0
-    for Ia = 1:Na
-        talp = alphas5(Ia);
-        alp = [pi-talp,pi];
-        func = @(bet) imag(my_function(alp,bet));
-        if Ia == 1        
-            z0 = z0s(I0);
-        else
-            z0 =  betas5(Ia-1,I0);
+% --- Branch for fixed alpha = [0,pi] ---
+    ws4 = zeros(Nb,1);
+    alpha4 = [0,pi];
+    betas4 = linspace(-9,0,Nb);
+    for Ib = 1:Nb
+        ws4(Ib) = my_function(alpha4,betas4(Ib));
+        if abs(imag(ws4(Ib))) > 1e-1
+            ws4(Ib) = NaN;
         end
-        betas5(Ia,I0) =  real(MullersMethod(func, z0-2*e, z0-e, z0, iterMax, distTol, fTol));
-        ws5(Ia,I0) = my_function(alp,betas5(Ia,I0));
     end
-end
 
-%% GtM: branch of alpha from Gamma to M
-
-z0s = 0; % Precomputed initial guesses for R = 0.05 at X
-N0 = length(z0s);
-alphas6 = linspace(pi*1e-5, pi-0.001, Na);
-
-betas6 = zeros(Na,N0);
-ws6 = zeros(Na,N0);
-for I0 = 1:N0
-    for Ia = 1:Na
-        alp = alphas6(Ia)*[1,1];
-        func = @(bet) imag(my_function(alp,bet));
-        if Ia == 1        
-            z0 = z0s(I0);
-        else
-            z0 =  betas6(Ia-1,I0);
+% --- Branch of alpha from M to X ---
+    z0s = 0;
+    N0 = length(z0s);
+    alphas5 = linspace(0.005, pi-0.001, Na);
+    
+    betas5 = zeros(Na,N0);
+    ws5 = zeros(Na,N0);
+    for I0 = 1:N0
+        for Ia = 1:Na
+            talp = alphas5(Ia);
+            alp = [pi-talp,pi];
+            func = @(bet) imag(my_function(alp,bet));
+            if Ia == 1        
+                z0 = z0s(I0);
+            else
+                z0 =  betas5(Ia-1,I0);
+            end
+            betas5(Ia,I0) =  real(MullersMethod(func, z0-2*e, z0-e, z0, iterMax, distTol, fTol));
+            ws5(Ia,I0) = my_function(alp,betas5(Ia,I0));
         end
-        betas6(Ia,I0) =  real(MullersMethod(func, z0-2*e, z0-e, z0, iterMax, distTol, fTol));
-        ws6(Ia,I0) = my_function(alp,betas6(Ia,I0));
     end
-end
 
-%% Add branch that diverges in the middle transition
-%z0 = -4.13;
-z0 = -3.4;
-alphas7 = linspace(pi*1e-5, 0.234, Na);
-%alphas7 = linspace(0.1, 1, Na);
-betas7 = zeros(Na,1);
-ws7 = zeros(Na,1);
-for Ia = 1:Na
-    alp = alphas7(Ia) * [1,1]; %(1-alphas7(Ia))*[0,0] + alphas7(Ia)*[0.234,0.234];
-    func = @(bet) imag(my_function(alp,bet));
-    if Ia > 1
-        z0 =  betas7(Ia-1);
+% --- Branch of alpha from Gamma to M ---
+    z0s = 0;
+    N0 = length(z0s);
+    alphas6 = linspace(pi*1e-5, pi-0.001, Na);
+    
+    betas6 = zeros(Na,N0);
+    ws6 = zeros(Na,N0);
+    for I0 = 1:N0
+        for Ia = 1:Na
+            alp = alphas6(Ia)*[1,1];
+            func = @(bet) imag(my_function(alp,bet));
+            if Ia == 1        
+                z0 = z0s(I0);
+            else
+                z0 =  betas6(Ia-1,I0);
+            end
+            betas6(Ia,I0) =  real(MullersMethod(func, z0-2*e, z0-e, z0, iterMax, distTol, fTol));
+            ws6(Ia,I0) = my_function(alp,betas6(Ia,I0));
+        end
     end
-    betas7(Ia) =  real(MullersMethod(func, z0-2*e, z0-e, z0, iterMax, distTol, fTol));
-    ws7(Ia) = my_function(alp,betas7(Ia));
-end
-%%
-% Add branch that diverges in the middle
-z0 = -1.92765;
-%alphas8 = linspace(0.165, 0.234, Na);
-alphas8 = linspace(0.165, 0.234, Na);
 
-betas8 = zeros(Na,1);
-ws8 = zeros(Na,1);
-betas8(1) = z0; 
-for Ia = 1:Na
-    %alp = alphas8(Ia)*[1,1];
-    alp = alphas8(Ia)*[1,1]; % [pi,0] -> [pi,pi]
-    func = @(bet) imag(my_function(alp,bet));
-    if Ia > 1
-        z0 =  betas8(Ia-1);
-        betas8(Ia) =  real(MullersMethod(func, z0-2*e, z0-e, z0, iterMax, distTol, fTol));
+% --- Branch that diverges in the middle transition ---
+    z0 = -3.4;
+    alphas7 = linspace(pi*1e-5, 0.234, Na);
+    betas7 = zeros(Na,1);
+    ws7 = zeros(Na,1);
+    for Ia = 1:Na
+        alp = alphas7(Ia) * [1,1]; 
+        func = @(bet) imag(my_function(alp,bet));
+        if Ia > 1
+            z0 =  betas7(Ia-1);
+        end
+        betas7(Ia) =  real(MullersMethod(func, z0-2*e, z0-e, z0, iterMax, distTol, fTol));
+        ws7(Ia) = my_function(alp,betas7(Ia));
     end
-    ws8(Ia) = my_function(alp,betas8(Ia));
-end
 
-%% Add branch for fixed alpha = [pi,pi]
-ws9 = zeros(Nb,1);
-alpha9 = [pi,pi];
-betas9 = linspace(-10,0,Nb); %linspace(-8*pi,0,Nb);
-for Ib = 1:Nb
-    ws9(Ib) = my_function(alpha9,betas9(Ib));
-    if abs(imag(ws9(Ib))) > 1e-1
-        ws9(Ib) = NaN;
+% --- Branch that diverges in the middle ---
+    z0 = -1.92765;
+    alphas8 = linspace(0.165, 0.234, Na);
+    
+    betas8 = zeros(Na,1);
+    ws8 = zeros(Na,1);
+    betas8(1) = z0; 
+    for Ia = 1:Na
+        alp = alphas8(Ia)*[1,1];
+        func = @(bet) imag(my_function(alp,bet));
+        if Ia > 1
+            z0 =  betas8(Ia-1);
+            betas8(Ia) =  real(MullersMethod(func, z0-2*e, z0-e, z0, iterMax, distTol, fTol));
+        end
+        ws8(Ia) = my_function(alp,betas8(Ia));
     end
-end
+
+% --- Branch for fixed alpha = [pi,pi] ---
+    ws9 = zeros(Nb,1);
+    alpha9 = [pi,pi];
+    betas9 = linspace(-10,0,Nb); 
+    for Ib = 1:Nb
+        ws9(Ib) = my_function(alpha9,betas9(Ib));
+        if abs(imag(ws9(Ib))) > 1e-1
+            ws9(Ib) = NaN;
+        end
+    end
 
 
 
@@ -272,7 +258,6 @@ end
     ax = gca;
     set(gca, 'FontSize', fsz, 'LineWidth', alw);
     set(gca,'TickLabelInterpreter','latex')
-    %legend([b1(1), r1(1)],'Full solution','Perturbation theory','interpreter','latex','location','southeast','FontSize',lfsz)
     set(gca, 'FontSize', fsz, 'LineWidth', alw);
     set(gca,'TickLabelInterpreter','latex')
     set(gcf, 'Position', [0, 0, 600, 400])
@@ -302,8 +287,8 @@ function ws = my_function(alpha,tbet)
     % --- Set the Parameters (same values as in RUN_band file) ---
     k0 = 0.00001;
     N = 1;
-    R = 0.05; %R= 0.05;       % R = 0.005 (Default setting)
-    D = 1;          % D = 1 has to be true
+    R = 0.05; 
+    D = 1;         
     c1 = 1/2*D*[1,1];
     c = c1;
     N_lattice = 4;        % Use about 5
