@@ -16,8 +16,8 @@ clear all
 close all
 
 % --- Number of plotting points ---
-Na = 100;
-Nb = 100;
+Na = 50;
+Nb = 50;
 alphas = linspace(pi*1e-5, pi-0.001, Na);
 
 % --- Parameters for Muller's method ---
@@ -273,7 +273,7 @@ function ws = my_function(alpha,tbet)
     c1 = 1/2*D*[1,1];
     c = [c1];
     N_lattice = 4;       % Use about 5
-    N_multi = 3;          % Use about 5
+    N_multi = 2;         % Use about 2
     d_zeta=makezetadata;
     JHdata = makeJHdata0(k0,R,N_multi);
     JHijdata = makeJHijexpdata(k0,c,N_multi);
