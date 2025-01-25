@@ -6,7 +6,7 @@ close all
 %% GtM: branch of alpha from Gamma to M 
 z0s = [-5.19, 0]; % Precomputed initial guesses for R = 0.05
 N0 = length(z0s);
-Na = 200; % Adjust as needed
+Na = 50; % Adjust as needed
 alphas = linspace(pi*1e-5, pi-0.001, Na);
 
 % Parameters for Muller's method
@@ -257,7 +257,7 @@ function ws = my_function(alpha,tbet)
     vb = 1;
 
     % Compute the Bandfunctions
-    CR = makeCR(k0, R, alp, bet, L1x, L2, d_zeta, JHdata, JHijdata, N, N_multi, N_lattice);
+    CR = makeCRSlow(k0, R, alp, bet, L1x, L2, d_zeta, JHdata, JHijdata, N, N_multi, N_lattice);
     ws = sort(vb*sqrt(delta*eig(CR)./vol));
 
 end
