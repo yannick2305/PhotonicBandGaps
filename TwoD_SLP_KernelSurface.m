@@ -23,7 +23,7 @@ close all;
     D = 1;         
     c1 = 1/2*D*[1,1];
     c = c1;
-    d_zeta =makezetadata;
+    d_zeta = makezetadata;
     JHdata = makeJHdata0(k0,R,N_multi);
     JHijdata = makeJHijexpdata(k0,c,N_multi);
     L1x = D;
