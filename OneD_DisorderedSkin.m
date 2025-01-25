@@ -99,7 +99,7 @@ delta = 0.001;  % Contrast
 
 %% --- Plot the eigenvalues ---
 
-    PlotEigenvalues(N, s, gamma, l)
+    % PlotEigenvalues(N, s, gamma, l)
 
 
 %% --- Defining functions ---
