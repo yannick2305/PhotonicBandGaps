@@ -44,7 +44,6 @@ close all;
     y_values_4 = real(f_4(beta_range));     % Complex Band
     y_values_5 = real(f_5(beta_range_2));   % Complex Band
 
-
 % --- Plotting the spectral Bands ---
     figure;
     lw = 4.5;   % Linewidth
