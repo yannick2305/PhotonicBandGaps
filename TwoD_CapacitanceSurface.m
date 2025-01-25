@@ -12,6 +12,8 @@
 %   of the capacitance matrix for specific values beta.
 %   More details can be found in arXiv:2409.14537.
 
+close all;
+clear all;
 
 % --- Set the parameters ---
     alpha = [pi,pi];        % Real quasimomentum
