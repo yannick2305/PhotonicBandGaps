@@ -31,7 +31,7 @@ alpha =  pi * [1,1]; % Keep alpha fixed at [pi, pi]
      %beta = 1.25195 * [1, -1];      % R = 0.001; SLP = 2, alpha = [1,1]
   
 
-    R =  0.3;  % Resonator radius
+    R = 0.3;  % Resonator radius
 
 % --- Define the parameters ------------------------------------------
     k0 = 0.0001; %0.00001;
