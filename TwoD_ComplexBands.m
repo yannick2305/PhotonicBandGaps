@@ -340,8 +340,17 @@ function ws = my_function(alpha,tbet)
     vb = 1;
 
     % --- Compute the Bandfunctions --- 
-    CR = makeCR(k0, R, alp, bet, L1x, L2, d_zeta, JHdata, JHijdata, N, N_multi, N_lattice);
-    ws = sort(vb*sqrt(delta*eig(CR)./vol));
+
+        % Efficient tranformed lattice sum
+        CR = makeCR(k0, R, alp, bet, L1x, L2, d_zeta, JHdata, JHijdata, N, N_multi, N_lattice); 
+    
+        % Non-efficient transformed method
+        %CR = makeCRSlow(k0, R, alp, bet, L1x, L2, d_zeta, JHdata, JHijdata, N, N_multi, N_lattice);
+    
+        % Efficient direct computation (slower convergence)
+        %CR = makeCRIntuitive(k0, R, alp, bet, N_multi, N_lattice);
+
+        ws = sort(vb*sqrt(delta*eig(CR)./vol));
 
 end
 
