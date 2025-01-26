@@ -134,6 +134,26 @@ fs  = 26;   % Fontsize of the annotations
     clim([-lim, lim]); 
     zlim([-lim, lim]); 
 
+    hold on;
+
+    % --- Add red circles ---
+    theta = linspace(0, 2*pi, 100); 
+    circle_centers = [0, 0; 1, 1; 1, 0; 0, 1];
+    for i = 1:size(circle_centers, 1)
+        cx = circle_centers(i, 1); 
+        cy = circle_centers(i, 2); 
+        x_circle = cx + R * cos(theta); 
+        y_circle = cy + R * sin(theta); 
+        plot3(x_circle, y_circle, lim * ones(size(x_circle)), 'r-', 'LineWidth', 2); 
+
+        % In the dilute limit add points instead of circles
+        %plot3(cx, cy, lim, 'ro', 'MarkerSize', 6, 'MarkerFaceColor', 'r'); 
+    end
+
+    hold off;
+    
+    % saveas(gcf, 'FieldSolDiluteAbs.png');
+
 
 %% --- Define the functions ---
 
