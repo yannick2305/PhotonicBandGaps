@@ -16,7 +16,7 @@ close all;
 clear all;
 
 % --- Set the parameters ---
-    alpha = [pi,pi];        % Real quasimomentum
+    alpha = [pi, pi];       % Real quasimomentum
     R     = 0.005;          % Resonator radius
     num_points = 80;        % Resolution of the surface plot
 
@@ -30,8 +30,8 @@ clear all;
 
 % --- Plotting the spectral Bands ---
     figure; 
-    ax = axes;  % Cerate the axis
-    fs = 20;    % Fontsize
+    ax = axes;  
+    fs = 20;    % Fontsize for annotation
     
     % --- Generate the surface plot on the specified axes ---
     surf_handle = surf(ax, Beta_X, Beta_Y, W_real); % Get the surface object handle
@@ -91,9 +91,9 @@ function w_real = my_function(beta, alpha, R)
     
     % Compute the Bandfunctions
     ws = sort(vb*sqrt(delta*eig(CR)./vol));
-    w_real = real(ws);   % return only the real part
+    w_real = real(ws);   % return only the real part (imaginary part has to be 0 for admissible solution)
     upper_bound = 8;
-    lower_bound = 3.5;
+    lower_bound = 0;
     
     % Remove the spikes for better visualisation
     if w_real < lower_bound        
