@@ -18,10 +18,12 @@
 %   decay rates correspond to the complex bandstructure, illustrating the 
 %   relationship between the observed decay and the complex band structure
 %   of the system.
+%   -> uncomment line 280
 %
 % Objective 3:
 %   Specifically excite spectral bands using alpha-quasiperiodic sources
 %   and overlay the result onto the spectral plot.
+%   -> uncomment line 286
 
 clear all;
 close all;
@@ -233,7 +235,6 @@ close all;
       -5.5494919   1.059973
       ];
 
-
 % --- Plotting the spectral Bands ---
     figure;
     fsz  = 19;
@@ -274,11 +275,15 @@ close all;
 
 % --- Uncomment below to get the desired result ---
 
-    % Plot the decay as a function of the frequency 
-    plot( decay_rate(:,1) +0.11, decay_rate(:,2)    ,'x', 'Color', 'b', 'MarkerSize', 6,'LineWidth', lw );
+    % --- Plot the decay as a function of the frequency ---
+    constant = 0.11;
+    %plot(decay_rate(:,1) + constant, decay_rate(:,2)    ,'x', 'Color', 'b', 'MarkerSize', 6,'LineWidth', lw );
 
-    % Excite specific bands using quasiperiodic sources
-    %plot( quasi_source(:,1)*1.04, quasi_source(:,2), 'x', 'Color', 'b', 'MarkerSize', 6,'LineWidth', lw);
+    % Remark: The constant mereley serves as a normalisation and does not
+    %         influence the exponential decay rate.
+
+    % --- Excite specific bands using quasiperiodic sources ---
+    %plot(quasi_source(:,1)*1.05 , quasi_source(:,2), 'x', 'Color', 'b', 'MarkerSize', 6,'LineWidth', lw);
 
 % --- Figure and axis properties --- 
     ylim([0,1.8])     
@@ -307,7 +312,6 @@ close all;
     % exportgraphics(gcf, 'XfixdirBZ.pdf'); % Save as a PDF file
 
 
-
 %% --- Define the function and Muller's Method --- 
 
 function ws = my_function(alpha,tbet)
@@ -333,7 +337,6 @@ function ws = my_function(alpha,tbet)
     L1x = D;
     L2x = 0;
     L2y = D;
-    %L1 = [L1x, 0];
     L2 = [L2x,L2y];
     vol = pi*R^2;
     delta = 1e-3;
@@ -341,17 +344,15 @@ function ws = my_function(alpha,tbet)
 
     % --- Compute the Bandfunctions --- 
 
-        % Efficient tranformed lattice sum
+        % Efficient tranformed lattice sum (Convergence O(N_lattice^{-3}))
         CR = makeCR(k0, R, alp, bet, L1x, L2, d_zeta, JHdata, JHijdata, N, N_multi, N_lattice); 
     
-        % Non-efficient transformed method
+        % Non-efficient transformed method (Convergence O(N_lattice^{-3}))
         %CR = makeCRSlow(k0, R, alp, bet, L1x, L2, d_zeta, JHdata, JHijdata, N, N_multi, N_lattice);
     
-        % Efficient direct computation (slower convergence)
+        % Efficient direct computation     (Convergence O(N_lattice^{-1}))
         %CR = makeCRIntuitive(k0, R, alp, bet, N_multi, N_lattice);
 
         ws = sort(vb*sqrt(delta*eig(CR)./vol));
 
 end
-
-
