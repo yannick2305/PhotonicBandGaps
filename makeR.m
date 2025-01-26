@@ -77,7 +77,7 @@ function SLP_matrix = makeR(w, R, alpha, beta, N_SLP, N_lattice)
                 n = n_range(j);
                 % Precompute lattice sum arguments
                 kind = -(m - n) + (2*N_SLP + 1);   % <-- corrected this line 
-                if mod(n, 2) == 0  
+                if mod(n, 2) == 0  % more efficient than (-1)^n
                     scale =  exp_result(:, kind );   % Assign +1 for even n
                 else
                     scale =  -exp_result(:, kind );   % Assign -1 for odd n
