@@ -21,8 +21,14 @@ clear all;
     num_points = 80;        % Resolution of the surface plot
 
 % --- Initialize the surface plot --- 
+    % --- Wide view ---
     beta_x = linspace(0, 20, num_points);
     beta_y = linspace(0, 20, num_points);
+
+    % --- Close view ---
+    beta_x = linspace(2.8, 3.8, num_points);
+    beta_y = linspace(2.8, 3.8, num_points);
+    
     [Beta_X, Beta_Y] = meshgrid(beta_x, beta_y);
 
 % --- Compute the capacitance matrix at the grid points --- 
@@ -42,8 +48,10 @@ clear all;
     % Axis labeling
     xticks(ax, 0:pi:6*pi);
     yticks(ax, 0:pi:6*pi);
-    xticklabels(ax, {'0','π','2π', '3π', '4π', '5π', '6π'});
-    yticklabels(ax, {'0','π','2π', '3π', '4π', '5π', '6π'});
+    zticks(ax, 0:20:20);
+    xticklabels(ax, {'0','\pi','2\pi', '$\pi', '4\pi', '5\pi', '6\pi'});
+    yticklabels(ax, {'0','\pi','2\pi', '$\pi', '4\pi', '5\pi', '6\pi'});
+    zticklabels(ax, {'0','20'});
     
     % Set the font size for the tick labels using the Axes handle
     ax.XAxis.FontSize = fs;  
@@ -53,6 +61,12 @@ clear all;
     % Add axis labels with custom font size
     xlabel(ax, '\beta_1', 'FontSize', fs+2);  
     ylabel(ax, '\beta_2', 'FontSize', fs+2);  
+    zlabel(ax, '\omega^{\alpha, \beta}', 'FontSize', fs+2);
+    
+    axis equal;
+    % --- Set the viewing angle ---
+    view(2);         % Top view
+    %view(-19, 15);  % Side view
     
     % Save the plot as a PDF
     print('surf_plot_high_2D.pdf', '-dpdf', '-r500');
