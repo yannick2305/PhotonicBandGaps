@@ -22,8 +22,8 @@ clear all;
 
 % --- Initialize the surface plot --- 
     % --- Wide view ---
-    beta_x = linspace(0, 20, num_points);
-    beta_y = linspace(0, 20, num_points);
+    %beta_x = linspace(0, 20, num_points);
+    %beta_y = linspace(0, 20, num_points);
 
     % --- Close view ---
     beta_x = linspace(2.8, 3.8, num_points);
@@ -65,8 +65,8 @@ clear all;
     
     axis equal;
     % --- Set the viewing angle ---
-    view(2);         % Top view
-    %view(-19, 15);  % Side view
+    %view(2);         % Top view
+    view(-19, 15);    % Side view
     
     % Save the plot as a PDF
     print('surf_plot_high_2D.pdf', '-dpdf', '-r500');
