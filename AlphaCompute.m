@@ -90,10 +90,10 @@ tic;
     %plotMatrixSurface(values) % Plot the defect mode in a log scalae.
 
     % --- Compute the quasimomentum alpha ---
-    x = linspace(-pi, pi, Nalpha);          % Discretize the x-axis
-    y = linspace(-pi, pi, Nalpha);          % Discretize the y-axis
-    [X, Y] = meshgrid(x, y);                % Generate the lattice
-    functionValues = zeros(Nalpha, Nalpha); % Initialize function
+    x = linspace(-pi, pi, Nalpha);         
+    y = linspace(-pi, pi, Nalpha);          
+    [X, Y] = meshgrid(x, y);                
+    functionValues = zeros(Nalpha, Nalpha); 
     
     % --- Evaluate the complex Floquet transform for alpha in grid ---
     parfor i = 1:Nalpha
@@ -143,7 +143,7 @@ tic;
     
     % --- Save the plot as a PDF ---
     filename = sprintf('alpha_freq_%.2f.pdf', w);   % Add frequency into filename
-    exportgraphics(gcf, filename);                  % Uncomment to Save as PDF file.
+    %exportgraphics(gcf, filename);                  % Uncomment to Save as PDF file.
   
 
 %% --- Create Movie for the alpha shift --------------------
@@ -152,8 +152,8 @@ tic;
 %   - w_values: A range of frequencies within the bandgap.
 %
 % Output: 
-%   - Movie: A visualization (movie) that illustrates how the real quasimomentum 
-%     evolves over the Brillouin zone as the frequency is varied deeper within the 
+%   - Movie: A visualisation (movie) that illustrates how the real quasimomentum 
+%     evolves over the Brillouin zone as the frequency is varied within the 
 %     bandgap. The movie shows the dynamic change in quasimomentum as the frequency 
 %     moves through the specified range.
 
