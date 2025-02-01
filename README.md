@@ -1,4 +1,4 @@
-Code supporting the numerical computations of arXiv: TODO
+Code supporting the numerical computations of arXiv:2409.14537 
 
 The primary **Run files** are named as follows:
   - OneD_(...).m
