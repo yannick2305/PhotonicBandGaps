@@ -1,6 +1,6 @@
 Code supporting the numerical computations of arXiv: TODO
 
-The **Run files** are calles:
+The primary **Run files** are named as follows:
   - OneD_(...).m
   - TwoD_(...).m
   - ThreeD(...).m
