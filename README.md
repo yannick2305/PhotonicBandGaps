@@ -16,10 +16,10 @@ The **Run Files** for two-dimensional chains are named:
 We consider a two-dimensional infinite screen of circular resonators.
 
 ### Multipole Expansion:
-In the case of spherical resonators, the solutions to the scattering problem are expressed in spherical harmonics. By choosing a finite-order multipole expansion, the single-layer potential admits a matrix representation. [Section A.2, 1]
+In the case of spherical resonators, the solutions to the scattering problem are expressed in spherical harmonics. By choosing a finite-order multipole expansion, the single-layer potential admits a matrix representation [Section A.2, 1].
 
 ### Quasiperiodic Capacitance Matrix:
-The Capacitance Matrix is a computationally efficient way to reduce the scattering problem to a finite eigenvalue problem. The eigenvalues of the quasiperiodic capacitance matrix then parameterize the band functions of the spectral problem. [Theorem 3.8, 1]
+The Capacitance Matrix is a computationally efficient way to reduce the scattering problem to a finite eigenvalue problem. The eigenvalues of the quasiperiodic capacitance matrix then parameterise the band functions of the spectral problem [Theorem 3.8, 1].
 
 ## References:
 When using the code in the repository, please cite the following two references:
