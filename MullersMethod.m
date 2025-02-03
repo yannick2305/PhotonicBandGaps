@@ -97,3 +97,4 @@ for iIter = 1:iterMax
 end
 root = z3;
 warning('No root was found before the maximumn number of iterations was reached.')
+end
