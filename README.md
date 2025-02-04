@@ -14,11 +14,33 @@ $$u(x + \ell) = e^{i (\alpha+i \beta) \cdot \ell}u(x), \quad \text{for all } \el
 
 <p align="center"> <img src="Figures/1dchain.png" alt="1dchain" width="600"/> </p>
 
-### Bandfunctions:
+## Bandfunctions:
 
+### Subwavelength Regime
+- `OneD_Monomer_Band.m`
+<p align="center"> <img src="Figures/BandMonomer.png" alt="BandMonomer" width="300"/> </p>
 
-### Transfer/Propagator Matrix:
+- `OneD_Dimer_Band.m`
+ <p align="center"> <img src="Figures/BandDimer.png" alt="BandDimer" width="300"/> </p>
+
+### General Regime
+
+#### Transfer/Propagator Matrix:
 In one-dimensional systems, the Helmholtz scattering problem reduces to an ODE, meaning that its solution can be propagated from initial values. The propagation of an eigenmode over one unit cell is modeled via the transfer matrix.
+
+- `OneD_General_Band.m`
+  <p align="center"> <img src="Figures/BandGeneral.png" alt="BandGeneral" width="300"/> </p>
+
+## Localisation Effects:
+
+### Exponentially localised Interface modes
+
+- `OneD_InterfaceModes.m`
+
+### Non-Hermitian Skinn effect
+- `OneD_SkinEffect.m`
+- `OneD_RandomGauge.m`
+- `OneD_AlgebraicSkin.m`
 
 We consider the non-Hermitian Skinn effect in a variety of settings:
 The **Run Files** for one-dimensional chains are named:
