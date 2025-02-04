@@ -29,7 +29,7 @@ function SLP_matrix = makeSKa0(omega, r, beta, N_SLP, N_lattice)
             term4 = -SLPKummer4(m, n, r, num_points); 
             term5 =  SLPKummer5(m, n, omega, N_lattice, beta, r);
             SLP_matrix(i, j) = - (term1 + term2 + term3 + term4 + term5);
-            % Remark: minus sign becauce of the different conventions used.
+            % Remark: minus sign because of the different conventions used.
        end
     end
    
