@@ -85,7 +85,7 @@ function plot_all_eigenvectors(N, s, gamma, l, len, mean)
         hold on;    
 
         for i = 2:(N)
-            plot(1:N, (abs(sortedEigenvectors(:, i))), '-', 'Color', 0.5 * [1, 1, 1], 'LineWidth', lw, 'MarkerSize', 15);
+            plot(1:N, (abs(sortedEigenvectors(:, i))), '-', 'Color', 0.8 * [1, 1, 1], 'LineWidth', lw/2.5, 'MarkerSize', 15);
         end
 
     % --- Add the predicted exponential decay rate ---
