@@ -1,9 +1,9 @@
 %{
-    ---------------------------------------------------------
+    -----------------------------------------------------------------------
     Author(s):    [Erik Orvehed HILTUNEN , Yannick DE BRUIJN]
     Date:         [November 2024]
     Description:  [2D Defect modes, Alpha shift and quasiperiodic sources]
-    ---------------------------------------------------------
+    -----------------------------------------------------------------------
 %}
 
 %% ------- Create Capacitance matrix ONCE at the beginning -------
