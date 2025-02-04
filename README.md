@@ -54,7 +54,7 @@ In some non-Hermitian systems such as in the skin effect, the energy leakage can
 ### Setup:
 We consider a two-dimensional infinite screen of circular resonators.
 
-<p align="center"> <img src="Figures/Resonator_screen.png" alt="1dscreen" width="600"/> </p>
+<p align="center"> <img src="Figures/Resonator_screen.png" alt="1dscreen" width="400"/> </p>
 
 ### Multipole Expansion:
 In the case of spherical resonators, the solutions to the scattering problem are expressed in spherical harmonics. By choosing a finite-order multipole expansion, the single-layer potential admits a matrix representation [Section A.2, 1].
