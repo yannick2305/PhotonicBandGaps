@@ -1,5 +1,5 @@
 %{
-    ------------------------------------------------------------------------
+    -------------------------------------------------------------------------
     Author(s):    [Erik Orvehed HILTUNEN , Yannick DE BRUIJN]
     Date:         [November 2024]
     Description:  [Compute the decay length for bandgap resonant frequency]
