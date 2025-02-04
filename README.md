@@ -42,6 +42,8 @@ In one-dimensional systems, the Helmholtz scattering problem reduces to an ODE, 
 - `OneD_RandomGauge.m`
 - `OneD_AlgebraicSkin.m`
 
+<p align="center"> <img src="Figures/OneSkin.png" alt="OneSkin" width="300"/> </p>
+
 We consider the non-Hermitian Skinn effect in a variety of settings:
 The **Run Files** for one-dimensional chains are named:
 - `OneD_(...).m`
