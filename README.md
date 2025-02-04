@@ -1,4 +1,9 @@
 # Complex Band Structure
+Authors: E. O. HILTUNEN and Y. DE BRUIJN
+
+Date: 04.02.2025
+
+------------------------------------------------------------------------------------------------------------------
 
 In this computational notebook, we consider the quasiperiodic Helmholtz scattering problem:
 
@@ -47,7 +52,7 @@ In some non-Hermitian systems such as in the skin effect, the energy leakage can
 - `OneD_RandomGauge.m`
 - `OneD_AlgebraicSkin.m`
 
-<p align="center"> <img src="Figures/OneSkin.png" alt="OneSkin" width="200"/> </p>
+<p align="center"> <img src="Figures/OneSkin.png" alt="OneSkin" width="250"/> </p>
 
 ## Two Dimensional Resonator Chains:
 
@@ -89,10 +94,10 @@ A defected resonator lattice supports eigenfrequencies inside the bandgap. The l
 
 We consuct a runtime and convergence analysis, with respect to the truncation size of the lattice sum defining the single layer potential.
 - `TwoD_RuntimeSLP.m`
-  <p align="center"> <img src="Figures/Runtime.png" alt="Runtime" width="300"/> </p>
+  <p align="center"> <img src="Figures/Runtime.png" alt="Runtime" width="400"/> </p>
 
 - `TwoD_ConvergenceSLP.m`
-  <p align="center"> <img src="Figures/Convergence.png" alt="Convergence" width="300"/> </p>
+  <p align="center"> <img src="Figures/Convergence.png" alt="Convergence" width="400"/> </p>
   
 
 ## References:
