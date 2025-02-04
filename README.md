@@ -2,11 +2,7 @@
 
 In this computational notebook, we consider the quasiperiodic Helmholtz scattering problem:
 
-$$\hspace{10mm}\Delta v + k^2u = 0, \quad \text{in } Y \setminus \overline{D}.$$  
-$$\hspace{3mm}\Delta v + k_i^2u = 0, \quad \text{in } D_i.$$  
-$$u\rvert_+ - u\rvert_- =0, \quad \text{on } \partial D.$$  
-$$\frac{\partial u}{\partial \nu} \vert_{-} - \delta \frac{\partial u}{\partial \nu} \vert_{+} = 0, \quad \text{on } \partial D.\hspace{7mm}$$  
-$$u(x + \ell) = e^{i (\alpha+i \beta) \cdot \ell}u(x), \quad \text{for all } \ell \in \Lambda.\hspace{3mm}$$  
+<p align="center"> <img src="Figures/HelmholtzPDE.png" alt="HelmholtzPDE" width="300"/> </p>
 
 
 
