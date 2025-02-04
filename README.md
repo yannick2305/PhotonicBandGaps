@@ -2,6 +2,8 @@
 
 ## One Dimensional Resonator Chains:
 
+<p align="center"> <img src="Figures/1dchain.png" alt="1dchain" width="700"/> </p>
+
 The **Run Files** for one-dimensional chains are named:
 - `OneD_(...).m`
 
