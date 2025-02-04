@@ -1,9 +1,9 @@
 %{
-    ---------------------------------------------------------
+    --------------------------------------------------------------------
     Author(s):    [Erik Orvehed HILTUNEN , Yannick DE BRUIJN]
     Date:         [November 2024]
     Description:  [Generate complex Capacitance matrix using for loops]
-    ---------------------------------------------------------
+    --------------------------------------------------------------------
 %}
 
 function matC = makeCRSlow(k, R, alpha, beta, L1x, L2, d_zeta, JHdata, JHijdata, N, N_multi, N_lattice)  
