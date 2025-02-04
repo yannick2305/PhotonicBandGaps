@@ -44,8 +44,8 @@ In one-dimensional systems, the Helmholtz scattering problem reduces to an ODE, 
 The defect supports an eigenfrequency in the band gap of the dimer. The compelex quasimomentum associated to this gap frequency accurately preicts the decay length of the defect eigenmode.
 
 - `OneD_InterfaceModes.m`
- <p align="center"> <img src="Figures/InterfaceBand.png" alt="InterfaceBand" width="500"/> </p>
- <p align="center"> <img src="Figures/InterfaceDecay.png" alt="InterfaceDecay" width="300"/> </p>
+ <p align="center"> <img src="Figures/InterfaceBand.png" alt="InterfaceBand" width="400"/> </p>
+ <p align="center"> <img src="Figures/InterfaceDecay.png" alt="InterfaceDecay" width="250"/> </p>
 
 ### Non-Hermitian Skinn effect
 In some non-Hermitian systems such as in the skin effect, the energy leakage can be factored out and the spectral problem can be reformulated as a gap problem, where the complex quasimomentum accurately predicts the decay lenghth of the eigenmodes.
