@@ -47,7 +47,7 @@ In some non-Hermitian systems such as in the skin effect, the energy leakage can
 - `OneD_RandomGauge.m`
 - `OneD_AlgebraicSkin.m`
 
-<p align="center"> <img src="Figures/OneSkin.png" alt="OneSkin" width="300"/> </p>
+<p align="center"> <img src="Figures/OneSkin.png" alt="OneSkin" width="200"/> </p>
 
 ## Two Dimensional Resonator Chains:
 
