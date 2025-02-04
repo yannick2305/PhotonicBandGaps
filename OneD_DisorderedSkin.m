@@ -120,27 +120,44 @@ function plot_all_eigenvectors(N, s, gamma, l, len, decay, pos)
     % --- Plot the eigenvector entries ---
         figure;
         hold on;    
-        P = 31;
-        for i = N:(N)
-            plot(1:N, (abs(sortedEigenvectors(:, i))), '-', 'Color', 0.5 * [1, 1, 1], 'LineWidth', lw, 'MarkerSize', 15);
+
+        %{
+        for i = 1:(N-2)
+            plot(1:N, (abs(sortedEigenvectors(:, i))), '-', 'Color', 0.65 * [1, 1, 1], 'LineWidth', lw/2.5, 'MarkerSize', 15);
         end
-
-    % --- Add the predicted exponential decay rate ---
-        x = 0:N; 
-        constant = 1;
-        y =  constant * exp(- (gamma * 0.5 * len - decay) * (x - pos(1) - 1)); 
-        plot(x, (y), 'r', 'LineWidth', lw/2); 
-        y2 =  constant * exp(- (gamma * 0.5 * len + decay) * (x - pos(1) -1)); 
-        plot(x, (y2), 'r', 'LineWidth', lw/2); 
         
-        x2 = 0 : pos(2) + 2;
-        y3 =  constant * exp(- (gamma * 0.5 * len - decay) * (x2 - pos(2) - 1) - 9); 
-        plot(x2, (y3), 'r', 'LineWidth', lw/2); 
+        x = 0:N;
+        y = exp(- gamma * 0.5 * sum(len) * (1 / length(len)) * x);
 
-        x3 = pos(2) +2 : N;
-        y4 =  constant * exp(- (gamma * 0.5 * len + decay) * (x3 - pos(2) -1) - 6); 
-        plot(x3, (y4), 'r', 'LineWidth', lw/2); 
+        % Remark:   We are plotting the mode evaluated at the resonators,
+        %           therefore the decay rate has to be devided by the number of
+        %           resonators in the unit cell, i.e. length(len).
+
+        plot(x, (y), 'r', 'LineWidth', lw); 
+        %}
    
+        % --- Uncomment to plot the defect ---
+            %
+            for i = N:(N)
+                plot(1:N, (abs(sortedEigenvectors(:, i))), '-', 'Color', 0.65 * [1, 1, 1], 'LineWidth', lw * 1.5, 'MarkerSize', 15);
+            end
+            % --- Add the predicted exponential decay rate ---
+            x = 0:N; 
+            constant = 1;
+            y =  constant * exp(- (gamma * 0.5 * len - decay) * (x - pos(1) - 1)); 
+            plot(x, (y), 'r', 'LineWidth', lw/2); 
+            y2 =  constant * exp(- (gamma * 0.5 * len + decay) * (x - pos(1) -1)); 
+            plot(x, (y2), 'r', 'LineWidth', lw/2); 
+            
+            x2 = 0 : pos(2) + 2;
+            y3 =  constant * exp(- (gamma * 0.5 * len - decay) * (x2 - pos(2) - 1) - 9); 
+            plot(x2, (y3), 'r', 'LineWidth', lw/2); 
+    
+            x3 = pos(2) +2 : N;
+            y4 =  constant * exp(- (gamma * 0.5 * len + decay) * (x3 - pos(2) -1) - 6); 
+            plot(x3, (y4), 'r', 'LineWidth', lw/2); 
+            %}
+
     % --- Formatting the plot ---
         xlabel('Eigenvector index', 'Interpreter', 'latex', 'FontSize', fs);
         ylabel('$|u(x)|$', 'Interpreter', 'latex', 'FontSize', fs);
