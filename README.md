@@ -11,7 +11,14 @@ The **Run Files** for one-dimensional chains are named:
 In one-dimensional systems, the Helmholtz scattering problem reduces to an ODE, meaning that its solution can be propagated from initial values. The propagation of an eigenmode over one unit cell is modeled via the transfer matrix.
 
 ## Two Dimensional Resonator Chains:
+
+<p align="center"> <img src="Figures/Resonator_screen.png" alt="1dscreen" width="700"/> </p>
+
 The **Run Files** for two-dimensional chains are named:
+
+
+- `TwoD_CapacitanceSurface.m`
+- 
 - `TwoD_(...).m`
 
 ### Setup:
