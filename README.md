@@ -13,7 +13,9 @@ In this computational notebook, we consider the quasiperiodic Helmholtz scatteri
 
 ## One Dimensional Resonator Chains:
 
-<p align="center"> <img src="Figures/1dchain.png" alt="1dchain" width="600"/> </p>
+Unit cell of length L containing N resonators.
+
+<p align="center"> <img src="Figures/Ochain.png" alt="Ochain" width="700"/> </p>
 
 ## Bandfunctions:
 
