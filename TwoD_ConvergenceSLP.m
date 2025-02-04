@@ -3,7 +3,7 @@
     Author(s):    [Erik Orvehed HILTUNEN , Yannick DE BRUIJN]
     Date:         [December 2024]
     Description:  [Convergence rates lattice sums single layer potntial.]
-    ---------------------------------------------------------------------------
+    --------------------------------------------------------------------------
 %}
 
 clear all;
