@@ -75,13 +75,13 @@ At certain quasiperiodicities, the single-layer potential becomes non-invertible
 - `TwoD_CapacitanceSurface.m`
 <p align="center"> <img src="Figures/Bandsurface.png" alt="Bandsurface" width="300"/> </p>
 
--`TwoD_SLP_KernelSurface.m`
+- `TwoD_SLP_KernelSurface.m`
 <p align="center"> <img src="Figures/SLP_Surface.png" alt="SLP_Surface" width="300"/> </p>
 
 We compute the field solution poised at a parameter valued point such that the single layer potential fails to e invertible.
 
 
--`TwoD_FieldSol.m`
+- `TwoD_FieldSol.m`
 <p align="center"> <img src="Figures/FIeldsol.png" alt="Fieldsol" width="300"/> </p>
 
 
@@ -95,6 +95,8 @@ A defected resonator lattice supports eigenfrequencies within the band gap. The 
 ## II.4 Phase change within the Band Gap
 
 This animation illustrates the phase shift $\alpha$ for frequencies $\omega$ within the band gap:
+
+- `TwoD_DefectMaster.m`
 
 <p align="center"> <img src="Alpha_Shift.gif" width="500"/>
 
