@@ -11,13 +11,13 @@ In this computational notebook, we provide the MATLAB code for the computations 
 
 
 
-## One Dimensional Resonator Chains:
+## I. One Dimensional Resonator Chains:
 
 Unit cell of length L containing N resonators.
 
 <p align="center"> <img src="Figures/Ochain.png" alt="Ochain" width="550"/> </p>
 
-## Bandfunctions:
+## I.1 Bandfunctions:
 
 ### Subwavelength Regime
 
@@ -37,7 +37,7 @@ In one-dimensional systems, the Helmholtz scattering problem reduces to an ODE, 
 - `OneD_General_Band.m`
   <p align="center"> <img src="Figures/BandGeneral.png" alt="BandGeneral" width="300"/> </p>
 
-## Localisation Effects:
+## I.2 Localisation Effects:
 
 ### Exponentially localised Interface modes
 
@@ -56,7 +56,7 @@ In certain non-Hermitian systems, such as those exhibiting the skin effect, ener
 
 <p align="center"> <img src="Figures/OneSkin.png" alt="OneSkin" width="250"/> </p>
 
-## Two Dimensional Resonator Chains:
+## II. Two Dimensional Resonator Chains:
 
 ### Setup:
 We consider a two-dimensional infinite screen of circular resonators.
@@ -69,7 +69,7 @@ In the case of spherical resonators, the solutions to the scattering problem are
 ### Quasiperiodic Capacitance Matrix:
 The Capacitance Matrix is a computationally efficient way to reduce the scattering problem to a finite eigenvalue problem. The eigenvalues of the quasiperiodic capacitance matrix then parameterise the band functions of the spectral problem [Theorem 3.8, 1].
 
-## Singularities in the Band Structure
+## II.1 Singularities in the Band Structure
 
 At certain quasiperiodicities, the single-layer potential becomes non-invertible, resulting in singularities in the band functions.
 - `TwoD_CapacitanceSurface.m`
@@ -85,20 +85,20 @@ We compute the field solution poised at a parameter valued point such that the s
 <p align="center"> <img src="Figures/FIeldsol.png" alt="Fieldsol" width="300"/> </p>
 
 
-## Defect modes
+## II.3 Defect modes
 
 A defected resonator lattice supports eigenfrequencies within the band gap. The localization strength of the defect eigenmode is accurately predicted by the complex band structure.
 - `TwoD_ComplexBands.m`
 <p align="center"> <img src="Figures/BandDecay.png" alt="BandDecay" width="500"/> </p>
 
 
-# Phase change within the Band Gap
+## II.4 Phase change within the Band Gap
 
-Here is an animation:
+This animation illustrates the phase shift $\alpha$ for frequencies $\omega$ within the band gap:
 
 <p align="center"> <img src="Alpha_Shift.gif" width="500"/>
 
-## Runtime and Convergence
+## II.5 Runtime and Convergence
 
 We conduct a runtime and convergence analysis with respect to the truncation size of the lattice sum defining the single-layer potential.
 - `TwoD_RuntimeSLP.m`
@@ -108,7 +108,7 @@ We conduct a runtime and convergence analysis with respect to the truncation siz
   <p align="center"> <img src="Figures/Convergence.png" alt="Convergence" width="400"/> </p>
   
 
-## References:
+## III. References:
 When using the code in the repository, please cite the following two references:
 
 
