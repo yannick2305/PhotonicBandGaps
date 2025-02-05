@@ -92,11 +92,11 @@ A defected resonator lattice supports eigenfrequencies within the band gap. The 
 <p align="center"> <img src="Figures/BandDecay.png" alt="BandDecay" width="500"/> </p>
 
 
-# My Project
+# Phase change within the Band Gap
 
-Here is a demonstration of the animation:
+Here is an animation:
 
-![Alpha Shift Animation](Alpha_Shift.gif)
+<p align="center"> <img src="Alpha_Shift.gif" width="500"/>
 
 ## Runtime and Convergence
 
