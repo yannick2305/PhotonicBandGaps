@@ -96,7 +96,7 @@ A defected resonator lattice supports eigenfrequencies within the band gap. The 
 
 Here is a demonstration of the animation:
 
-![Alpha Shift Animation](Figures/Alpha_Shift.gif)
+![Alpha Shift Animation](Alpha_Shift.gif)
 
 ## Runtime and Convergence
 
