@@ -15,7 +15,7 @@ In this computational notebook, we provide the MATLAB code for the computations 
 
 Unit cell of length L containing N resonators.
 
-<p align="center"> <img src="Figures/Ochain.png" alt="Ochain" width="700"/> </p>
+<p align="center"> <img src="Figures/Ochain.png" alt="Ochain" width="550"/> </p>
 
 ## Bandfunctions:
 
