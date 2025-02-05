@@ -5,7 +5,7 @@ Date: 04.02.2025
 
 ------------------------------------------------------------------------------------------------------------------
 
-In this computational notebook, we consider the quasiperiodic Helmholtz scattering problem:
+In this computational notebook, we provide the MATLAB code for the computations in [1, 2]. We focus on the quasiperiodic Helmholtz scattering problem:
 
 <p align="center"> <img src="Figures/HelmholtzPDE.png" alt="HelmholtzPDE" width="300"/> </p>
 
@@ -22,7 +22,7 @@ Unit cell of length L containing N resonators.
 ### Subwavelength Regime
 
 #### Quasiperiodic Capacitance
-In the subwavelength regime the complex quasiperiodic capacitance matrix allows us to find explicit formulas for the band and gap functions.
+In the subwavelength regime, the complex quasiperiodic capacitance matrix enables us to derive explicit formulas for the band and gap functions.
 - `OneD_Monomer_Band.m`
 <p align="center"> <img src="Figures/BandMonomer.png" alt="BandMonomer" width="300"/> </p>
 
@@ -32,7 +32,7 @@ In the subwavelength regime the complex quasiperiodic capacitance matrix allows 
 ### General Regime
 
 #### Transfer/Propagator Matrix:
-In one-dimensional systems, the Helmholtz scattering problem reduces to an ODE, meaning that its solution can be propagated from initial values. The propagation of an eigenmode over one unit cell is modeled via the transfer matrix.
+In one-dimensional systems, the Helmholtz scattering problem reduces to an ODE, allowing its solution to be propagated from initial values. The propagation of an eigenmode over one unit cell is modeled using the transfer matrix, which enables the determination of band functions in the general regime.
 
 - `OneD_General_Band.m`
   <p align="center"> <img src="Figures/BandGeneral.png" alt="BandGeneral" width="300"/> </p>
@@ -41,14 +41,14 @@ In one-dimensional systems, the Helmholtz scattering problem reduces to an ODE, 
 
 ### Exponentially localised Interface modes
 
-The defect supports an eigenfrequency in the band gap of the dimer. The compelex quasimomentum associated to this gap frequency accurately preicts the decay length of the defect eigenmode.
+The geometric defect supports an eigenfrequency within the band gap of the dimer. The complex quasimomentum associated with this gap frequency accurately predicts the decay length of the defect eigenmode.
 
 - `OneD_InterfaceModes.m`
  <p align="center"> <img src="Figures/InterfaceBand.png" alt="InterfaceBand" width="400"/> </p>
  <p align="center"> <img src="Figures/InterfaceDecay.png" alt="InterfaceDecay" width="250"/> </p>
 
 ### Non-Hermitian Skinn effect
-In some non-Hermitian systems such as in the skin effect, the energy leakage can be factored out and the spectral problem can be reformulated as a gap problem, where the complex quasimomentum accurately predicts the decay lenghth of the eigenmodes.
+In certain non-Hermitian systems, such as those exhibiting the skin effect, energy leakage can be factored out, allowing the spectral problem to be reformulated as a gap problem. In this framework, the complex quasimomentum accurately predicts the decay length of the eigenmodes.
 
 - `OneD_SkinEffect.m`
 - `OneD_RandomGauge.m`
@@ -71,7 +71,7 @@ The Capacitance Matrix is a computationally efficient way to reduce the scatteri
 
 ## Singularities in the Band Structure
 
-At certain quasiperiodicities the single layer potential fails to be invertible, leading to singularities in the bandfunctions.
+At certain quasiperiodicities, the single-layer potential becomes non-invertible, resulting in singularities in the band functions.
 - `TwoD_CapacitanceSurface.m`
 <p align="center"> <img src="Figures/Bandsurface.png" alt="Bandsurface" width="300"/> </p>
 
@@ -87,14 +87,14 @@ We compute the field solution poised at a parameter valued point such that the s
 
 ## Defect modes
 
-A defected resonator lattice supports eigenfrequencies inside the bandgap. The localisation strength of the defect eigenmode is accurately predicted by the complex band structure.
+A defected resonator lattice supports eigenfrequencies within the band gap. The localization strength of the defect eigenmode is accurately predicted by the complex band structure.
 - `TwoD_ComplexBands.m`
 <p align="center"> <img src="Figures/BandDecay.png" alt="BandDecay" width="500"/> </p>
 
 
 ## Runtime and Convergence
 
-We consuct a runtime and convergence analysis, with respect to the truncation size of the lattice sum defining the single layer potential.
+We conduct a runtime and convergence analysis with respect to the truncation size of the lattice sum defining the single-layer potential.
 - `TwoD_RuntimeSLP.m`
   <p align="center"> <img src="Figures/Runtime.png" alt="Runtime" width="400"/> </p>
 
