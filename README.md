@@ -11,7 +11,7 @@ In this computational notebook, we provide the MATLAB code for the computations 
 
 
 
-## I. One Dimensional Resonator Chains:
+# I. One Dimensional Resonator Chains:
 
 Unit cell of length L containing N resonators.
 
@@ -56,7 +56,7 @@ In certain non-Hermitian systems, such as those exhibiting the skin effect, ener
 
 <p align="center"> <img src="Figures/OneSkin.png" alt="OneSkin" width="250"/> </p>
 
-## II. Two Dimensional Resonator Chains:
+# II. Two Dimensional Resonator Chains:
 
 ### Setup:
 We consider a two-dimensional infinite screen of circular resonators.
