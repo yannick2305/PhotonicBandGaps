@@ -92,6 +92,12 @@ A defected resonator lattice supports eigenfrequencies within the band gap. The 
 <p align="center"> <img src="Figures/BandDecay.png" alt="BandDecay" width="500"/> </p>
 
 
+# My Project
+
+Here is a demonstration of the animation:
+
+![Alpha Shift Animation](Figures/Alpha_Shift.gif)
+
 ## Runtime and Convergence
 
 We conduct a runtime and convergence analysis with respect to the truncation size of the lattice sum defining the single-layer potential.
