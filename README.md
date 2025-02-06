@@ -89,7 +89,7 @@ We compute the field solution poised at a parameter valued point such that the s
 
 A defected resonator lattice supports eigenfrequencies within the band gap. The localization strength of the defect eigenmode (blue x) is accurately predicted by the complex band structure (red lines).
 - `TwoD_ComplexBands.m`
-<p align="center"> <img src="Figures/BandDecay.png" alt="BandDecay" width="500"/> </p>
+<p align="center"> <img src="Figures/BandDecay.png" alt="BandDecay" width="600"/> </p>
 
 
 ## II.4 Phase change within the Band Gap
