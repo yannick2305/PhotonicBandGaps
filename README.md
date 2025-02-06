@@ -94,7 +94,7 @@ A defected resonator lattice supports eigenfrequencies within the band gap. The 
 
 ## II.4 Phase change within the Band Gap
 
-This animation illustrates the phase shift $\alpha$ for frequencies $\omega$ within the band gap.
+This animation illustrates the phase shift $\alpha$ for frequencies $\omega$ within the band gap. This phase shift corresponds to the hopping between gap bands in Section II.3.
 
 - `TwoD_DefectMaster.m`
 
