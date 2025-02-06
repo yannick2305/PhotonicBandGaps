@@ -116,6 +116,6 @@ d- `TwoD_RuntimeSLP.m`
 When using the code in the repository, please cite the following two references:
 
 
-[1] De Bruijn, Y. and Hiltunen, E.O. (2025), Complex Band Structure for Subwavelength Evanescent Waves. Stud Appl Math., 154: e70022. https://doi.org/10.1111/sapm.70022
+[1] De Bruijn, Y. and Hiltunen, E.O. (2025), *Complex Band Structure for Subwavelength Evanescent Waves*. Stud Appl Math., 154: e70022. https://doi.org/10.1111/sapm.70022
 
-[2] De Bruijn Y and Hiltunen E O, *Complex Brillouin Zone for Localised Modes in Hermitian and Non-Hermitian Problems*.
+[2] De Bruijn, Y. and Hiltunen, E.O. (2025), *Complex Brillouin Zone for Localised Modes in Hermitian and Non-Hermitian Problems*.
