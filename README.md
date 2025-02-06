@@ -78,7 +78,7 @@ At certain quasiperiodicities, the single-layer potential becomes non-invertible
 - `TwoD_SLP_KernelSurface.m`
 <p align="center"> <img src="Figures/SLP_Surface.png" alt="SLP_Surface" width="300"/> </p>
 
-We compute the field solution poised at a parameter valued point such that the single layer potential fails to e invertible.
+We compute the field solution poised at a parameter valued point such that the single layer potential fails to be invertible. We observe that the field solution is zero on the resonators. The resonator edges are highlined in red.
 
 
 - `TwoD_FieldSol.m`
@@ -87,7 +87,7 @@ We compute the field solution poised at a parameter valued point such that the s
 
 ## II.3 Defect modes
 
-A defected resonator lattice supports eigenfrequencies within the band gap. The localization strength of the defect eigenmode is accurately predicted by the complex band structure.
+A defected resonator lattice supports eigenfrequencies within the band gap. The localization strength of the defect eigenmode (blue x) is accurately predicted by the complex band structure (red lines).
 - `TwoD_ComplexBands.m`
 <p align="center"> <img src="Figures/BandDecay.png" alt="BandDecay" width="500"/> </p>
 
@@ -102,12 +102,14 @@ This animation illustrates the phase shift $\alpha$ for frequencies $\omega$ wit
 
 ## II.5 Runtime and Convergence
 
-We conduct a runtime and convergence analysis with respect to the truncation size of the lattice sum defining the single-layer potential.
-- `TwoD_RuntimeSLP.m`
-  <p align="center"> <img src="Figures/Runtime.png" alt="Runtime" width="400"/> </p>
+We conduct a runtime and convergence analysis with respect to the truncation size of the lattice sum defining the single-layer potential. The quasiperiodic capacitance matrix characterises the subavelength resonant frequencies up to $\mathcal{O}(\delta)$, where typicall we choose the contrast $\delta = 10^{-3}$.  Consequently, an acceptable truncation error is of order  $\mathcal{O}(10^{-3})$.
 
 - `TwoD_ConvergenceSLP.m`
   <p align="center"> <img src="Figures/Convergence.png" alt="Convergence" width="400"/> </p>
+
+d- `TwoD_RuntimeSLP.m`
+  <p align="center"> <img src="Figures/Runtime.png" alt="Runtime" width="400"/> </p>
+
   
 
 ## III. References:
