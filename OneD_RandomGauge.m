@@ -84,7 +84,7 @@ function plot_all_eigenvectors(N, s, gamma, l, len, mean)
         figure;
         hold on;    
 
-        for i = 2:(N)
+        for i = 1:N
             plot(1:N, (abs(sortedEigenvectors(:, i))), '-', 'Color', 0.8 * [1, 1, 1], 'LineWidth', lw/2.5, 'MarkerSize', 15);
         end
 
