@@ -114,6 +114,6 @@ We conduct a runtime and convergence analysis with respect to the truncation siz
 When using the code in the repository, please cite the following two references:
 
 
-[1] De Bruijn Y and Hiltunen E O, *Complex Band Structure for Subwavelength Evanescent Waves*. Studies in Applied Mathematics (https://doi.org/10.48550/arXiv.2409.14537).
+[1] De Bruijn Y and Hiltunen E O, *Complex Band Structure for Subwavelength Evanescent Waves*. Studies in Applied Mathematics (https://doi.org/10.1111/sapm.70022).
 
-[2] De Bruijn Y and Hiltunen E O, *Complex Band Structure for non-Hermitian spectral problems*.
+[2] De Bruijn Y and Hiltunen E O, *Complex Brillouin Zone for Localised Modes in Hermitian and Non-Hermitian Problems*.
