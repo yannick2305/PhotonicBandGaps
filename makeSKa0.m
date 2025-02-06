@@ -183,7 +183,7 @@ function lattice_sum_value = SLPKummer5(m, n, w, n_lat, beta, R)
         b = [0, 2*pi]; 
     
         % Precompute terms
-        psi_mn = (-1)^n * 1i^(m - n); 
+        psi_mn = (-1)^n * 1i^(m + n); 
     
         % Create mesh grid for the q values
         [i_vals, j_vals] = meshgrid(-n_lat:n_lat, -n_lat:n_lat);
@@ -222,7 +222,7 @@ function lattice_sum_value = SLPKummer5(m, n, w, n_lat, beta, R)
 end
 
 
-% Non vectorised (i.e. slow lattice sum implmentation)
+% --- Non vectorised lattice sum implmentation ---
 
 %{
 function green_sum = Green(q, k, beta)
