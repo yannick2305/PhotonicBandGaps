@@ -285,6 +285,30 @@ close all;
     % --- Excite specific bands using quasiperiodic sources ---
     %plot(quasi_source(:,1)*1.05 , quasi_source(:,2), 'x', 'Color', 'b', 'MarkerSize', 6,'LineWidth', lw);
 
+
+    % --- Phase transition ---
+    %{
+    transp = 0.12;
+    % --- Add Background colouring ---
+
+    alM = 0.61;
+    alG = 0.82;
+    patch([-6 10 10 -6], [alG alG 2 2], [1, 0.647, 0]  , 'FaceAlpha', transp+0.2);
+    patch([-6 10 10 -6], [alM alM alG alG],   'g', 'FaceAlpha', transp );
+    patch([-6 10 10 -6], [0.579972 0.579972 alM alM], 'c', 'FaceAlpha', transp +0.35);
+
+        % Plot each vertical line with different colors
+    plot([0, 0]      , [0, 10], 'Color', [1, 0.647, 0], 'LineWidth', 4); 
+    plot([pi, pi]    , [0, 10], 'Color', 'c',           'LineWidth', 4);
+    plot([2*pi, 2*pi], [0, 10], 'Color', 'g',           'LineWidth', 4); 
+    plot([3*pi, 3*pi], [0, 10], 'Color', [1, 0.647, 0], 'LineWidth', 4);
+
+    fsf = 22 ;
+    text(8, 0.593, '$\alpha = M$',      'Interpreter', 'latex', 'FontSize', fsf, 'Color', 'k');
+    text(8, 0.71,  '$\alpha = X$',      'Interpreter', 'latex', 'FontSize', fsf, 'Color', 'k');
+    text(8, 0.88,  '$\alpha = \Gamma$', 'Interpreter', 'latex', 'FontSize', fsf, 'Color', 'k');
+    %}
+
 % --- Figure and axis properties --- 
     ylim([0,1.8])     
     xlim([-6,3*pi])   
