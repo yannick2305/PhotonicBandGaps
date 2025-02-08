@@ -12,14 +12,16 @@ In this computational notebook, we provide the MATLAB code for the computations 
 
 
 # I. One Dimensional Resonator Chains:
+### Setup:
 
-Unit cell of length L containing N resonators.
+We consider infinitely repeated unit cells, each of length L and containing N resonators.
 
 <p align="center"> <img src="Figures/Ochain.png" alt="Ochain" width="550"/> </p>
 
 ## I.1 Bandfunctions:
 
 ### Subwavelength Regime
+In a setting where $0 < \delta \ll 1$, we seek non-trivial eigenfrequencies for the Helmholtz scattering problem such that $\omega(\delta)\to 0$, as $\delta \to 0$.
 
 #### Quasiperiodic Capacitance
 In the subwavelength regime, the complex quasiperiodic capacitance matrix enables us to derive explicit formulas for the band and gap functions.
@@ -30,9 +32,10 @@ In the subwavelength regime, the complex quasiperiodic capacitance matrix enable
  <p align="center"> <img src="Figures/BandDimer.png" alt="BandDimer" width="300"/> </p>
 
 ### General Regime
+In this setting, we consider an arbitrary  contrast $\delta \in [0,1] $.
 
 #### Transfer/Propagator Matrix:
-In one-dimensional systems, the Helmholtz scattering problem reduces to an ODE, allowing its solution to be propagated from initial values. The propagation of an eigenmode over one unit cell is modeled using the transfer matrix, which enables the determination of band functions in the general regime.
+In one-dimensional systems, the Helmholtz scattering problem reduces to an ODE, allowing its solution to be propagated from initial values. The propagation of an eigenmode over one unit cell is modeled using the transfer matrix, which enables the determination of band functions.
 
 - `OneD_General_Band.m`
   <p align="center"> <img src="Figures/BandGeneral.png" alt="BandGeneral" width="300"/> </p>
@@ -107,7 +110,7 @@ We conduct a runtime and convergence analysis with respect to the truncation siz
 - `TwoD_ConvergenceSLP.m`
   <p align="center"> <img src="Figures/Convergence.png" alt="Convergence" width="400"/> </p>
 
-d- `TwoD_RuntimeSLP.m`
+- `TwoD_RuntimeSLP.m`
   <p align="center"> <img src="Figures/Runtime.png" alt="Runtime" width="400"/> </p>
 
   
