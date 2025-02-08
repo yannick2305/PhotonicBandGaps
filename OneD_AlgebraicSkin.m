@@ -40,7 +40,7 @@ clear all;
 
 %% --- Plot the eigenvalues ---
 
-     PlotEigenvalues(N, s, gamma, l)
+     %PlotEigenvalues(N, s, gamma, l)
 
 
 %% --- Defining functions ---
