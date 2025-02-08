@@ -63,7 +63,7 @@ clear all;
     ylabel(ax, '\beta_2', 'FontSize', fs+2);  
     zlabel(ax, '\omega^{\alpha, \beta}', 'FontSize', fs+2);
     
-    axis equal;
+    %axis equal;
     % --- Set the viewing angle ---
     %view(2);         % Top view
     view(-19, 15);    % Side view
