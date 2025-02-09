@@ -41,12 +41,12 @@ close all;
     minsing = min(singularValues_S);
 
 % --- Large View ---
-    %beta1_values = linspace(0, 4*pi, Resolution); 
-    %beta2_values = linspace(0, 4*pi, Resolution); 
+    %beta1_values = linspace(0, 4 * pi, Resolution); 
+    %beta2_values = linspace(0, 4 * pi, Resolution); 
 
 % --- Close up on the first nontrivil kernel ---
-    beta1_values = linspace(2.8, 4.5, Resolution); 
-    beta2_values = linspace(2.8, 4.5, Resolution); 
+    beta1_values = linspace(2.9, 4.05, Resolution); 
+    beta2_values = linspace(2.9, 4.05, Resolution); 
 
 % --- Initialize an array ---
     smallestSingularValues = zeros(length(beta1_values), length(beta2_values));
@@ -78,14 +78,15 @@ close all;
     hold on;
     
     % Add labels and title
-    xlabel('\beta_1', 'FontSize', 18);
-    ylabel('\beta_2', 'FontSize', 18);
+    xlabel('$\beta_1$', 'FontSize', 18, 'Interpreter', 'latex');
+    ylabel('$\beta_2$', 'FontSize', 18, 'Interpreter', 'latex');
     xticks(0:pi:3*pi);  
     yticks(0:pi:3*pi);   
     
     % Customize x-axis labels to display multiples of pi
-    xticklabels({'0', '\pi', '2\pi', '3\pi'});
-    yticklabels({'0', '\pi', '2\pi', '3\pi'});
+    xticklabels({'$0$', '$\pi$', '$2\pi$', '$3\pi$'});
+    yticklabels({'$0$', '$\pi$', '$2\pi$', '$3\pi$'});
+    set(gca, 'TickLabelInterpreter', 'latex');
     
     % Increase font size of tick labels
     ax = gca; 
@@ -104,6 +105,8 @@ close all;
     
     % Change the font size of the colorbar labels
     cb.FontSize = 18; 
+    cb.Label.Interpreter = 'latex';
+    cb.TickLabelInterpreter = 'latex';
     view(0, 90);
     
     hold off;
