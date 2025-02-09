@@ -127,12 +127,17 @@ fs  = 26;   % Fontsize of the annotations
     xlabel('$x_1$', 'Interpreter', 'latex', 'FontSize', fs + 4); 
     ylabel('$x_2$', 'Interpreter', 'latex', 'FontSize', fs + 4); 
     set(gca, 'FontSize', fs-4); 
-    %axis equal;
+    set(gca, 'TickLabelInterpreter', 'latex');
+    axis equal;
     axis tight;
     view(2);
  
     clim([-lim, lim]); 
     zlim([-lim, lim]); 
+
+    cb = colorbar;
+    cb.Label.Interpreter = 'latex';
+    cb.TickLabelInterpreter = 'latex';
 
     hold on;
 
@@ -144,9 +149,10 @@ fs  = 26;   % Fontsize of the annotations
         cy = circle_centers(i, 2); 
         x_circle = cx + R * cos(theta); 
         y_circle = cy + R * sin(theta); 
+        % --- Plot the resonator edge ---
         plot3(x_circle, y_circle, lim * ones(size(x_circle)), 'r-', 'LineWidth', 2); 
 
-        % In the dilute limit add points instead of circles
+        % --- In the dilute limit add points instead of circles ---
         %plot3(cx, cy, lim, 'ro', 'MarkerSize', 6, 'MarkerFaceColor', 'r'); 
     end
 
