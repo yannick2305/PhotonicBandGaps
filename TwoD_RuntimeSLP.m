@@ -121,7 +121,7 @@ end
     lw = 2;    
     fs = 16;    
     
-    figure('Position', [100, 100, 1000, 400]); 
+    figure('Position', [100, 100, 700, 200]); 
     plot(N_inf_values, elapsedTimes, 'x', 'LineWidth', lw, 'MarkerSize', 6);
     hold on;
     plot(N_inf_values, trendline, '--r', 'LineWidth', lw+1);  
@@ -129,7 +129,7 @@ end
     ylabel('Runtime (seconds)', 'Interpreter', 'latex', 'FontSize', fs);
     set(gca, 'TickLabelInterpreter', 'latex', 'FontSize', fs);
     grid on;
-    legend({'Measured Runtime', 'Quadratic Trendline'}, 'FontSize', fs, 'Interpreter', 'latex');
+    legend({'Measured Runtime', 'Quadratic Trendline'}, 'FontSize', fs-2, 'Interpreter', 'latex');
 
 
 % --- Display the fitted coefficients (optional) --------------------
