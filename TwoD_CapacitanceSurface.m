@@ -43,34 +43,44 @@ clear all;
     surf_handle = surf(ax, Beta_X, Beta_Y, W_real); % Get the surface object handle
 
     % Remove the black edges around tiles 
-    %set(surf_handle, 'EdgeColor', 'none'); % Uncomment if necessary
+    set(surf_handle, 'EdgeColor', 'none'); % Uncomment if necessary
 
     % Axis labeling
     xticks(ax, 0:pi:6*pi);
     yticks(ax, 0:pi:6*pi);
     zticks(ax, 0:20:20);
-    xticklabels(ax, {'0','\pi','2\pi', '$\pi', '4\pi', '5\pi', '6\pi'});
-    yticklabels(ax, {'0','\pi','2\pi', '$\pi', '4\pi', '5\pi', '6\pi'});
-    zticklabels(ax, {'0','20'});
+
+    xticklabels(ax, {'$0$', '$\pi$', '$2\pi$', '$3\pi$', '$4\pi$', '$5\pi$', '$6\pi$'});
+    yticklabels(ax, {'$0$', '$\pi$', '$2\pi$', '$3\pi$', '$4\pi$', '$5\pi$', '$6\pi$'});
+    zticklabels(ax, {'$0$', '$20$'});
+
+    set(gca, 'TickLabelInterpreter', 'latex');
     
     % Set the font size for the tick labels using the Axes handle
     ax.XAxis.FontSize = fs;  
     ax.YAxis.FontSize = fs;  
     ax.ZAxis.FontSize = fs;  
+
+    cb = colorbar;
+    cb.FontSize = fs; 
+    cb.Label.Interpreter = 'latex';
+    cb.TickLabelInterpreter = 'latex';
+
     
     % Add axis labels with custom font size
-    xlabel(ax, '\beta_1', 'FontSize', fs+2);  
-    ylabel(ax, '\beta_2', 'FontSize', fs+2);  
-    zlabel(ax, '\omega^{\alpha, \beta}', 'FontSize', fs+2);
+    xlabel(ax, '$\beta_1$', 'Interpreter', 'latex', 'FontSize', fs);  
+    ylabel(ax, '$\beta_2$', 'Interpreter', 'latex', 'FontSize', fs);  
+    zlabel(ax, '$\omega^{\alpha, \beta}$', 'Interpreter', 'latex', 'FontSize', fs + 2);
     
-    %axis equal;
+    axis equal;
     % --- Set the viewing angle ---
-    %view(2);         % Top view
-    view(-19, 15);    % Side view
+    view(2);         % Top view
+    %view(-19, 15);    % Side view
     
     % Save the plot as a PDF
-    print('surf_plot_high_2D.pdf', '-dpdf', '-r500');
+    print('surf_plot_high_2DTop.pdf', '-dpdf', '-r500');
 
+    
 %% --- Define the function f ---
 
 function w_real = my_function(beta, alpha, R)
