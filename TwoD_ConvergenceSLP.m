@@ -69,7 +69,7 @@ close all;
     disp(['Decay exponent for Classic: ', num2str(p3_value)]);
 
 % --- Plot the truncation error ---
-    figure('Position', [100, 100, 1000, 400]); 
+    figure('Position', [100, 100, 700, 200]); 
     loglog(n_values, convergence1, 'LineWidth', 4, 'LineStyle', '-'  , 'DisplayName', 'Kummer' );
     hold on;
     loglog(n_values, convergence2, 'LineWidth', 4, 'LineStyle', '- -', 'DisplayName', 'Direct' );
