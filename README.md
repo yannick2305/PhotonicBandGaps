@@ -7,9 +7,9 @@ Date: 04.02.2025
 
 In this computational notebook, we provide the MATLAB code for the computations in [1, 2]. We focus on the quasiperiodic Helmholtz scattering problem:
 
-<p align="center"> <img src="Figures/HelmholtzPDE.png" alt="HelmholtzPDE" width="300"/> </p>
+<p align="center"> <img src="Figures/HelmholtzPDENew.png" alt="HelmholtzPDE" width="300"/> </p>
 
-
+Where the resonators within the unit cell are denoted by $D_i$, and the overall resonator set is defined as $D := \bigcup_{i} D_i$. We define the contrast $\delta := \rho_1 / \rho_0$ as the ratio of the densities of the resonators to that of the background material. $\nu$ denoted the outwards facing normal derivative on the resonator surface.
 
 # I. One Dimensional Resonator Chains:
 ### Setup:
