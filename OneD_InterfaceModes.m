@@ -13,11 +13,11 @@ clear all;
 close all;
 
 % --- Set system parameters ---
-    n = 101;
+    n = 101;                % n = 4 * N + 1, for natural number N.
     s_1 = 1;                % Spacing between first and second resonator
-    s_2 = 2;                % Spacing between second and first resonator
+    s_2 = 2;                % Spacing between second and first resonator Note that: s_2 > s_1
     delta = 0.001;          % Contrast
-    N_points = 200;         % Discretisation points used in plot
+    N_points = 400;         % Discretisation points used in plot
     L =  s_1 + s_2 + 2;     % Length of the unit cell.
 
 % --- Get resonant modes and frequencies via the capacitance matrix ---
@@ -35,8 +35,8 @@ close all;
     x_range = linspace(-pi/L, pi/L, N_points);  % First Brillouin zone.    
 
 % --- Plot the complex bands over some ranges ---
-    beta_bound = acosh( (1/2) * (s_2^2 + s_1^2)/(s_1*s_2) ); 
-    beta_range = linspace(- (1/L) * beta_bound, (1/L) * beta_bound, N_points);
+    beta_bound = (1 / L ) * acosh( (1/2) * (s_2^2 + s_1^2)/(s_1*s_2) ); 
+    beta_range = linspace(- beta_bound, beta_bound, N_points);
     beta_range_2 = linspace(-4/L - 0.2, 4/L + 0.2, N_points);   
 
 % --- Evaluate the functions on the grid ---
@@ -52,6 +52,7 @@ close all;
     intersection_points = NaN(length(ws), 1);
     tol = 1e-3;
     
+    % --- Bottom spectral Band ---
     for i = 1:floor(length(ws)/2+1)
         w = ws(i);
     
@@ -63,6 +64,7 @@ close all;
         end
     end
     
+    % --- Top spectral Band ---
     for i = floor(length(ws)/2 + 2) : n
         w = ws(i);
     
@@ -74,11 +76,13 @@ close all;
         end
     end
 
-    w = ws(floor(n/2)+1);
-    diff_f1 = abs(f_3(x_search) - w);
+    % --- Gap Band ---
+    x_search_gap = linspace(-beta_bound, beta_bound, 1000);
+    w = ws(floor(n/2)+1);                  
+    diff_f1 = abs(f_3(x_search_gap) - w);
     [min_diff, min_index] = min(diff_f1);
     
-    gap_decay = x_search(min_index);
+    gap_decay = x_search_gap(min_index);
 
 
 % --- Plotting the spectral Bands and resonant frequencies ---
@@ -132,7 +136,7 @@ close all;
     xticklabels({'$-\pi/L$', '$0$', '$\pi/L$'});
     xlabel('$\alpha$ and $\beta$ respectively', 'FontSize', fs, 'Interpreter', 'latex');
     ylabel('\omega^{\alpha, \beta}', 'FontSize', fs);
-    ylim([0, 0.09]);
+    ylim([0, f_5((pi+ 0.8)/L)]);
     xlim([-pi/L-0.1, pi/L + 0.1]);
     legend([band_resonance_handles(1), gap_resonance_handles(1)], {'Band Resonance', 'Gap Resonance'}, 'Location', 'northeast', 'FontSize', fs+2);
     set(gca, 'FontSize', fs+4, 'TickLabelInterpreter', 'latex');
@@ -141,13 +145,13 @@ close all;
      
 %% --- Plot the eigenmodes ---
 
-    % --- Compute the decay length ---
-    defect_freq  = compute_omega_i(delta, s_1, s_2);
+    % --- Compute the defect eigenfrequency and the decay length ---
+    defect_freq  = compute_omega_i(delta, s_1, s_2); 
     decay_length = compute_beta(L, s_1, s_2, defect_freq, delta);
     
     % --- Plot the eigenmodes and the predicted decay length ---
-    shift = 2 ;  % shift the decay envelope if needed
-    plot_all_eigenvectors(C, n, decay_length, shift);
+    shift = 1 ;  % shift the decay envelope if needed
+    plot_all_eigenvectors(C, n, decay_length, shift, L);
 
 
 %% --- Defining functions ---
@@ -156,8 +160,8 @@ close all;
 function C = generate_matrix(n, s1, s2)
     % Objective: compute the interface capacitance matrix
 
-    if n < 3
-        error('Matrix size n must be at least 3.');
+    if mod(n - 1, 4) ~= 0 || n <= 0
+        error('Matrix size n must be of the form 4*N + 1, where N is a natural number (N > 1).');
     end
 
     % Define the parameters based on the input equations
@@ -174,8 +178,8 @@ function C = generate_matrix(n, s1, s2)
         C(i, i) = alpha;
     end
 
-    % Populate upper and lower diagonal
-    for i = 1:n-1
+    % Populate upper and lower diagonal before the defect
+    for i = 1:floor(n/2)
         if mod(i, 2) == 1
             C(i, i+1) = beta1; % Upper diagonal
             C(i+1, i) = beta1; % Lower diagonal
@@ -184,6 +188,17 @@ function C = generate_matrix(n, s1, s2)
             C(i+1, i) = beta2; % Lower diagonal
         end
     end
+    
+    % Populate upper and lower diagonal after the defect
+    for i = floor(n/2)+1:n-1
+        if mod(i, 2) == 1
+            C(i, i+1) = beta2; % Upper diagonal
+            C(i+1, i) = beta2; % Lower diagonal
+        else
+            C(i, i+1) = beta1; % Upper diagonal
+            C(i+1, i) = beta1; % Lower diagonal
+        end
+    end   
 
     % Manually set the corners
     C(1, 1) = tilde_alpha;
@@ -201,7 +216,7 @@ function C = generate_matrix(n, s1, s2)
     end
 end
 
-function plot_all_eigenvectors(C, N, beta, shift)
+function plot_all_eigenvectors(C, N, beta, shift, L)
     % Objective: Plot the eigenvectors of the Capacitance matrix and
     % overlay the predicted exponential decay rate.
 
@@ -218,27 +233,28 @@ function plot_all_eigenvectors(C, N, beta, shift)
     % --- Plot the eigenvector entries ---
         figure;
         hold on;    
-        Pos = floor(N/2) + 2;
-        for i = Pos  : Pos
-            plot(1:N, (abs(sortedEigenvectors(:, i))), '-', 'Color', 0.5 * [1, 1, 1], 'LineWidth', lw, 'MarkerSize', 15);
-        end
+        Pos = floor(N/2) + 1;  % Pick th defect eigenmode
+        plot(1:N, (abs(sortedEigenvectors(:, Pos))), '-', 'Color', 0.5 * [1, 1, 1], 'LineWidth', lw, 'MarkerSize', 15);
 
     % --- Add the predicted exponential decay rate ---
-        x = floor(N/2)+shift : N; 
-        x2 = 1 : floor(N/2)+shift; 
-        constant = exp(-0.8);
-        y =  constant * exp(- beta * (x - floor(N/2) - shift)); 
+        x = floor(N/2) + shift : N; 
+        x2 = 1 : floor(N/2) + shift; 
+        constant = abs(sortedEigenvectors(floor(N/2) + 1, Pos));
+        y =  constant * exp(- (beta * L/2) * (x - floor(N/2) - shift)); 
         plot(x, (y), 'r', 'LineWidth', lw); 
 
-        y1 =  constant * exp( beta * (x2 - floor(N/2) - shift)); 
+        y1 =  constant * exp( (beta * L/2) * (x2 - floor(N/2) - shift)); 
         plot(x2, (y1), 'r', 'LineWidth', lw);
+
+        % Remark: There are 2 resonators per unit cell and beta yields the
+        %         decay over a unit cell so we devide beta by 2.
    
     % --- Formatting the plot ---
         set(gcf, 'Position', [100, 100, 400, 400]); 
         xlabel('Eigenvector index', 'Interpreter', 'latex', 'FontSize', fs);
         ylabel('$|u(x)|$', 'Interpreter', 'latex', 'FontSize', fs);
         ylim([-25, 1]);
-        xlim([0, floor(N/10)*10]);
+        %xlim([0, floor(N/10)*10]);
         grid on;
         set(gca, 'YScale', 'log');
         set(gca, 'FontSize', fs-4);
@@ -257,6 +273,6 @@ end
 function beta = compute_beta(L, s1, s2, omega_i, delta)
     % Objective: Compute the decay length based on the frequency
    
-    inner_arcosh = (s1 * s2 / 2) * (1/s1^2 + 1/s2^2 - (1/s1 + 1/s2 - (omega_i^2 / delta))^2);
+    inner_arcosh = (s1 * s2 / 2) * (1/s1^2 + 1/s2^2 - ((omega_i^2 / delta) - 1/s1 - 1/s2)^2);
     beta = (1 / L) * acosh(inner_arcosh);
 end
