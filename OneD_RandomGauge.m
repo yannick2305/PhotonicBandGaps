@@ -197,7 +197,7 @@ function PlotGeometry(N, l, s, gamma)
     c.Label.String = '$\gamma$';
     c.Label.Interpreter = 'latex';
     c.Label.FontSize = 18;
-    saveas(gcf, 'RandomGaugeChainN.pdf');
+    % saveas(gcf, 'RandomGaugeChainN.pdf');
 end
 
 
