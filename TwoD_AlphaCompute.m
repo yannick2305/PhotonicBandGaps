@@ -193,22 +193,26 @@ tic;
         x = linspace(0, pi, Nalpha);    % Adjust range from -pi to pi to plot entire Brilloin zone
         y = linspace(0, pi, Nalpha);
         [X, Y] = meshgrid(x, y);
-        functionValues = zeros(Nalpha, Nalpha);
         
-        % --- Evaluate the complex Floquet transform for alpha in grid ---   
-        for i = 1:Nalpha
-            for j = 1:Nalpha
-                sumValue = 0;
-                r = [X(i, j) + 1i*result, Y(i, j)];
-                for inx = 1:n
-                    for iny = 1:n
-                        dotProduct = r * shiftCoordinates(inx, iny, n)';
-                        sumValue = sumValue + values(inx, iny) * exp(1i * dotProduct);
-                    end
-                end
-                functionValues(i, j) = sumValue;
-            end
-        end
+        % --- Evaluate the complex Floquet transform for alpha in grid --- 
+        r1 = (X(:) + 1i * result);  % (Nalpha^2, 1)
+        r2 = Y(:);                  % (Nalpha^2, 1)
+        
+        [kx, ky] = meshgrid(1:n, 1:n); 
+        kVectors = shiftCoordinates(kx, ky, n); 
+        
+        kVectors = reshape(kVectors, [], 2);
+        
+        valuesVec = reshape(values, [], 1);
+        
+        dotProducts = r1 * kVectors(:,1).' + r2 * kVectors(:,2).'; 
+        
+        expTerms = exp(1i * dotProducts); 
+        
+        functionValuesVec = expTerms * valuesVec; 
+        
+        % Reshape back to (Nalpha, Nalpha)
+        functionValues = reshape(functionValuesVec, Nalpha, Nalpha);
         
         % --- Surface plot (use abs for visualization) ---
         surf(x, y, abs(functionValues'), 'EdgeColor', 'none');
